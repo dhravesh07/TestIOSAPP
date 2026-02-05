@@ -79,45 +79,65 @@ class UserSettings: ObservableObject {
     // MARK: - Initialization
 
     private init() {
-        self.hasCompletedOnboarding = defaults.bool(forKey: Keys.hasCompletedOnboarding)
+        // Load all values into local variables first
+        let savedOnboarding = defaults.bool(forKey: Keys.hasCompletedOnboarding)
 
+        let savedReason: LearningReason
         if let reasonRaw = defaults.string(forKey: Keys.learningReason),
            let reason = LearningReason(rawValue: reasonRaw) {
-            self.learningReason = reason
+            savedReason = reason
         } else {
-            self.learningReason = .general
+            savedReason = .general
         }
 
+        let savedLevel: CEFRLevel
         if let levelRaw = defaults.string(forKey: Keys.currentLevel),
            let level = CEFRLevel(rawValue: levelRaw) {
-            self.currentLevel = level
+            savedLevel = level
         } else {
-            self.currentLevel = .a1
+            savedLevel = .a1
         }
 
+        let savedTarget: CEFRLevel
         if let targetRaw = defaults.string(forKey: Keys.targetLevel),
            let target = CEFRLevel(rawValue: targetRaw) {
-            self.targetLevel = target
+            savedTarget = target
         } else {
-            self.targetLevel = .b1
+            savedTarget = .b1
         }
 
-        self.dailyGoalMinutes = defaults.integer(forKey: Keys.dailyGoalMinutes)
-        if self.dailyGoalMinutes == 0 { self.dailyGoalMinutes = 10 }
+        var savedGoal = defaults.integer(forKey: Keys.dailyGoalMinutes)
+        if savedGoal == 0 { savedGoal = 10 }
 
-        self.currentStreak = defaults.integer(forKey: Keys.currentStreak)
-        self.longestStreak = defaults.integer(forKey: Keys.longestStreak)
-        self.totalXP = defaults.integer(forKey: Keys.totalXP)
-        self.currentUnit = defaults.integer(forKey: Keys.currentUnit)
-        if self.currentUnit == 0 { self.currentUnit = 1 }
-        self.currentLesson = defaults.integer(forKey: Keys.currentLesson)
-        if self.currentLesson == 0 { self.currentLesson = 1 }
+        let savedStreak = defaults.integer(forKey: Keys.currentStreak)
+        let savedLongestStreak = defaults.integer(forKey: Keys.longestStreak)
+        let savedXP = defaults.integer(forKey: Keys.totalXP)
 
-        if let savedLessons = defaults.array(forKey: Keys.completedLessons) as? [String] {
-            self.completedLessons = Set(savedLessons)
+        var savedUnit = defaults.integer(forKey: Keys.currentUnit)
+        if savedUnit == 0 { savedUnit = 1 }
+
+        var savedLesson = defaults.integer(forKey: Keys.currentLesson)
+        if savedLesson == 0 { savedLesson = 1 }
+
+        let savedCompletedLessons: Set<String>
+        if let lessons = defaults.array(forKey: Keys.completedLessons) as? [String] {
+            savedCompletedLessons = Set(lessons)
         } else {
-            self.completedLessons = []
+            savedCompletedLessons = []
         }
+
+        // Now assign all properties
+        self.hasCompletedOnboarding = savedOnboarding
+        self.learningReason = savedReason
+        self.currentLevel = savedLevel
+        self.targetLevel = savedTarget
+        self.dailyGoalMinutes = savedGoal
+        self.currentStreak = savedStreak
+        self.longestStreak = savedLongestStreak
+        self.totalXP = savedXP
+        self.currentUnit = savedUnit
+        self.currentLesson = savedLesson
+        self.completedLessons = savedCompletedLessons
 
         // Check and update streak
         updateStreak()
