@@ -235,6 +235,7 @@ enum ThematicCategory: String, Codable, CaseIterable, Identifiable {
     case time = "Time & Dates"
     case emotions = "Emotions"
     case opinions = "Opinions"
+    case culture = "Culture & Traditions"
 
     var id: String { rawValue }
 
@@ -256,6 +257,7 @@ enum ThematicCategory: String, Codable, CaseIterable, Identifiable {
         case .time: return "clock.fill"
         case .emotions: return "face.smiling.fill"
         case .opinions: return "text.bubble.fill"
+        case .culture: return "theatermasks.fill"
         }
     }
 }
