@@ -175,15 +175,28 @@ struct FlashcardView: View {
                 }
             }
 
-            Button {
-                showExplanation = true
-            } label: {
-                HStack {
-                    Image(systemName: "info.circle")
-                    Text("Show Explanation")
+            HStack(spacing: 16) {
+                Button {
+                    SpeechManager.shared.speakGerman(flashcards[currentIndex].german)
+                } label: {
+                    HStack {
+                        Image(systemName: "speaker.wave.2.fill")
+                        Text("Listen")
+                    }
+                    .font(.subheadline)
+                    .foregroundColor(.blue)
                 }
-                .font(.subheadline)
-                .foregroundColor(.blue)
+
+                Button {
+                    showExplanation = true
+                } label: {
+                    HStack {
+                        Image(systemName: "info.circle")
+                        Text("Explanation")
+                    }
+                    .font(.subheadline)
+                    .foregroundColor(.blue)
+                }
             }
 
             HStack(spacing: 20) {

@@ -20,6 +20,7 @@
 		A1000011001 /* ProgressManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000011000 /* ProgressManager.swift */; };
 		A1000012001 /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000012000 /* CategoryView.swift */; };
 		A1000013001 /* AdaptiveLearningEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000013000 /* AdaptiveLearningEngine.swift */; };
+		A1000014001 /* SpeechManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000014000 /* SpeechManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,7 @@
 		A1000011000 /* ProgressManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressManager.swift; sourceTree = "<group>"; };
 		A1000012000 /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
 		A1000013000 /* AdaptiveLearningEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdaptiveLearningEngine.swift; sourceTree = "<group>"; };
+		A1000014000 /* SpeechManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +87,7 @@
 				A1000004000 /* FlashcardModel.swift */,
 				A1000011000 /* ProgressManager.swift */,
 				A1000013000 /* AdaptiveLearningEngine.swift */,
+				A1000014000 /* SpeechManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -192,6 +195,7 @@
 				A1000011001 /* ProgressManager.swift in Sources */,
 				A1000012001 /* CategoryView.swift in Sources */,
 				A1000013001 /* AdaptiveLearningEngine.swift in Sources */,
+				A1000014001 /* SpeechManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

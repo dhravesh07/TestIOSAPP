@@ -157,9 +157,21 @@ struct SwipeCardView: View {
                     .shadow(color: shadowColor, radius: 10)
 
                 VStack(spacing: 20) {
-                    Text("Is this sentence correct?")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
+                    HStack {
+                        Text("Is this sentence correct?")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+
+                        Spacer()
+
+                        Button {
+                            SpeechManager.shared.speakGerman(sentence.sentence)
+                        } label: {
+                            Image(systemName: "speaker.wave.2.fill")
+                                .font(.title3)
+                                .foregroundColor(.blue)
+                        }
+                    }
 
                     Text(sentence.sentence)
                         .font(.title2)

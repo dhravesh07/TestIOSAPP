@@ -97,10 +97,25 @@ struct QuizView: View {
         VStack(spacing: 16) {
             let question = questions[currentIndex]
 
-            Text(questionText(for: question))
-                .font(.headline)
-                .foregroundColor(.secondary)
-                .multilineTextAlignment(.center)
+            HStack {
+                Spacer()
+                Text(questionText(for: question))
+                    .font(.headline)
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.center)
+                Spacer()
+
+                // Speaker button for German questions
+                if question.questionType == .germanToEnglish {
+                    Button {
+                        SpeechManager.shared.speakGerman(question.flashcard.german)
+                    } label: {
+                        Image(systemName: "speaker.wave.2.fill")
+                            .font(.title3)
+                            .foregroundColor(.blue)
+                    }
+                }
+            }
 
             Text(questionPrompt(for: question))
                 .font(.title2)

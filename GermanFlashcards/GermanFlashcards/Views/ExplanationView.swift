@@ -75,7 +75,7 @@ struct ExplanationView: View {
                 if let audioHint = flashcard.audioHint {
                     VStack(spacing: 4) {
                         Button {
-                            // TODO: Add text-to-speech
+                            SpeechManager.shared.speakGerman(flashcard.german)
                         } label: {
                             Image(systemName: "speaker.wave.2.fill")
                                 .font(.title2)
@@ -87,7 +87,7 @@ struct ExplanationView: View {
                     }
                 } else {
                     Button {
-                        // TODO: Add text-to-speech
+                        SpeechManager.shared.speakGerman(flashcard.german)
                     } label: {
                         Image(systemName: "speaker.wave.2.fill")
                             .font(.title2)
