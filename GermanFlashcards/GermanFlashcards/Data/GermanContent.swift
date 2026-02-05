@@ -310,6 +310,7 @@ struct GermanContent {
             thematicCategory: .introductions,
             level: .a1,
             cardType: .conjugation,
+            grammarTip: "e→i verbs: sprechen, helfen, nehmen, geben, essen, sehen",
             conjugation: VerbConjugation(
                 infinitive: "sprechen",
                 meaning: "to speak",
@@ -319,8 +320,7 @@ struct GermanContent {
                 isModal: false,
                 isSeparable: false,
                 separablePrefix: nil
-            ),
-            grammarTip: "e→i verbs: sprechen, helfen, nehmen, geben, essen, sehen"
+            )
         ),
         Flashcard(
             german: "fahren (to drive/go) - stem change a→ä",
@@ -332,6 +332,7 @@ struct GermanContent {
             thematicCategory: .travel,
             level: .a1,
             cardType: .conjugation,
+            grammarTip: "a→ä verbs: fahren, schlafen, tragen, waschen, laufen",
             conjugation: VerbConjugation(
                 infinitive: "fahren",
                 meaning: "to drive/travel",
@@ -341,8 +342,7 @@ struct GermanContent {
                 isModal: false,
                 isSeparable: false,
                 separablePrefix: nil
-            ),
-            grammarTip: "a→ä verbs: fahren, schlafen, tragen, waschen, laufen"
+            )
         ),
     ]
 
@@ -359,6 +359,7 @@ struct GermanContent {
             thematicCategory: .hobbies,
             level: .a2,
             cardType: .conjugation,
+            grammarTip: "Modal + infinitive at END: Ich kann gut schwimmen.",
             conjugation: VerbConjugation(
                 infinitive: "können",
                 meaning: "can, to be able to",
@@ -368,8 +369,7 @@ struct GermanContent {
                 isModal: true,
                 isSeparable: false,
                 separablePrefix: nil
-            ),
-            grammarTip: "Modal + infinitive at END: Ich kann gut schwimmen."
+            )
         ),
         Flashcard(
             german: "müssen (must/have to)",
@@ -543,6 +543,7 @@ struct GermanContent {
             thematicCategory: .shopping,
             level: .a1,
             cardType: .caseExample,
+            grammarTip: "Only MASCULINE changes in accusative: der→den, ein→einen",
             caseBreakdown: CaseBreakdown(
                 originalSentence: "Die Frau sieht den Mann.",
                 translation: "The woman sees the man.",
@@ -550,8 +551,7 @@ struct GermanContent {
                     .init(word: "Die Frau", grammaticalCase: .nominative, role: "subject", explanation: "Who sees? The woman"),
                     .init(word: "den Mann", grammaticalCase: .accusative, role: "direct object", explanation: "Whom does she see? The man (accusative: der→den)")
                 ]
-            ),
-            grammarTip: "Only MASCULINE changes in accusative: der→den, ein→einen"
+            )
         ),
         Flashcard(
             german: "Dative = Indirect Object",
