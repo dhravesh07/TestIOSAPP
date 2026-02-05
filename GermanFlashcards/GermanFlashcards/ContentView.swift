@@ -7,7 +7,7 @@ struct ContentView: View {
     var body: some View {
         Group {
             if userSettings.hasCompletedOnboarding {
-                NewHomeView()
+                HomeView()
                     .environmentObject(progressManager)
             } else {
                 OnboardingView()

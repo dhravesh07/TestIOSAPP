@@ -46,10 +46,14 @@ struct HomeView: View {
 
 struct MainLearningView: View {
     @EnvironmentObject var progressManager: ProgressManager
+    @ObservedObject var userSettings = UserSettings.shared
 
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
+                // Streak & XP Header
+                streakHeader
+
                 // Level Progress Card
                 levelProgressCard
 
@@ -68,7 +72,83 @@ struct MainLearningView: View {
             .padding()
         }
         .background(Color(.systemGroupedBackground))
-        .navigationTitle("German A1-A2")
+        .navigationTitle("Learn German")
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                HStack(spacing: 12) {
+                    // Streak badge
+                    HStack(spacing: 4) {
+                        Image(systemName: "flame.fill")
+                            .foregroundColor(.orange)
+                        Text("\(userSettings.currentStreak)")
+                            .fontWeight(.semibold)
+                    }
+
+                    // XP badge
+                    HStack(spacing: 4) {
+                        Image(systemName: "star.fill")
+                            .foregroundColor(.yellow)
+                        Text("\(userSettings.totalXP)")
+                            .fontWeight(.semibold)
+                    }
+                }
+                .font(.subheadline)
+            }
+        }
+    }
+
+    // MARK: - Streak Header
+
+    private var streakHeader: some View {
+        HStack(spacing: 16) {
+            // Current Level
+            VStack(spacing: 4) {
+                Text(userSettings.currentLevel.rawValue)
+                    .font(.title2)
+                    .fontWeight(.bold)
+                    .foregroundColor(.blue)
+                Text("Level")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 12)
+            .background(Color.blue.opacity(0.1))
+            .cornerRadius(12)
+
+            // Daily Streak
+            VStack(spacing: 4) {
+                HStack(spacing: 4) {
+                    Image(systemName: "flame.fill")
+                        .foregroundColor(.orange)
+                    Text("\(userSettings.currentStreak)")
+                        .fontWeight(.bold)
+                }
+                .font(.title2)
+                Text("Day Streak")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 12)
+            .background(Color.orange.opacity(0.1))
+            .cornerRadius(12)
+
+            // Target Level
+            VStack(spacing: 4) {
+                Text(userSettings.targetLevel.rawValue)
+                    .font(.title2)
+                    .fontWeight(.bold)
+                    .foregroundColor(.green)
+                Text("Target")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 12)
+            .background(Color.green.opacity(0.1))
+            .cornerRadius(12)
+        }
     }
 
     // MARK: - Level Progress Card
