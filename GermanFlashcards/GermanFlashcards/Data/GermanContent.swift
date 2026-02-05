@@ -288,6 +288,7 @@ struct GermanContent {
             thematicCategory: .travel,
             level: .a1,
             cardType: .conjugation,
+            grammarTip: "Movement verbs use 'sein' in Perfekt: Ich bin gegangen.",
             conjugation: VerbConjugation(
                 infinitive: "gehen",
                 meaning: "to go",
@@ -297,8 +298,7 @@ struct GermanContent {
                 isModal: false,
                 isSeparable: false,
                 separablePrefix: nil
-            ),
-            grammarTip: "Movement verbs use 'sein' in Perfekt: Ich bin gegangen."
+            )
         ),
         Flashcard(
             german: "sprechen (to speak) - stem change e→i",
@@ -444,6 +444,7 @@ struct GermanContent {
             thematicCategory: .dailyRoutine,
             level: .a2,
             cardType: .vocabulary,
+            grammarTip: "In Perfekt, ge- goes between prefix and stem: aufGEstanden",
             conjugation: VerbConjugation(
                 infinitive: "aufstehen",
                 meaning: "to get up, to stand up",
@@ -453,8 +454,7 @@ struct GermanContent {
                 isModal: false,
                 isSeparable: true,
                 separablePrefix: "auf"
-            ),
-            grammarTip: "In Perfekt, ge- goes between prefix and stem: aufGEstanden"
+            )
         ),
         Flashcard(
             german: "anfangen (to begin)",
@@ -563,6 +563,7 @@ struct GermanContent {
             thematicCategory: .family,
             level: .a2,
             cardType: .caseExample,
+            grammarTip: "Dative articles: dem (m/n), der (f), den + n (plural)",
             caseBreakdown: CaseBreakdown(
                 originalSentence: "Er gibt dem Kind einen Ball.",
                 translation: "He gives the child a ball.",
@@ -571,8 +572,7 @@ struct GermanContent {
                     .init(word: "dem Kind", grammaticalCase: .dative, role: "indirect object", explanation: "To whom? The child (das→dem)"),
                     .init(word: "einen Ball", grammaticalCase: .accusative, role: "direct object", explanation: "What? A ball (ein→einen)")
                 ]
-            ),
-            grammarTip: "Dative articles: dem (m/n), der (f), den + n (plural)"
+            )
         ),
         Flashcard(
             german: "Dative verbs: helfen, danken, gefallen",
