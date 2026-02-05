@@ -21,6 +21,12 @@ struct GermanContent {
         cards.append(contentsOf: questionsCards)
         cards.append(contentsOf: tenseCards)
         cards.append(contentsOf: vocabularyCards)
+        cards.append(contentsOf: greetingsCards)
+        cards.append(contentsOf: numbersCards)
+        cards.append(contentsOf: timeCards)
+        cards.append(contentsOf: b1GrammarCards)
+        cards.append(contentsOf: b2GrammarCards)
+        cards.append(contentsOf: expandedVocabularyCards)
         return cards
     }()
 
@@ -940,6 +946,919 @@ struct GermanContent {
         ),
     ]
 
+    // MARK: - Greetings & Introductions (A1)
+
+    static let greetingsCards: [Flashcard] = [
+        Flashcard(
+            german: "Hallo",
+            english: "Hello",
+            explanation: "Universal informal greeting, used any time of day.",
+            example: "Hallo! Wie geht's?",
+            exampleTranslation: "Hello! How are you?",
+            grammarTopics: [.greetings],
+            thematicCategory: .greetings,
+            level: .a1,
+            cardType: .vocabulary
+        ),
+        Flashcard(
+            german: "Tschüss",
+            english: "Bye",
+            explanation: "Informal goodbye. Also spelled 'Tschüs'.",
+            example: "Tschüss! Bis morgen!",
+            exampleTranslation: "Bye! See you tomorrow!",
+            grammarTopics: [.greetings],
+            thematicCategory: .greetings,
+            level: .a1,
+            cardType: .vocabulary
+        ),
+        Flashcard(
+            german: "Auf Wiedersehen",
+            english: "Goodbye (formal)",
+            explanation: "Formal goodbye, literally 'until we see again'.",
+            example: "Auf Wiedersehen! Einen schönen Tag noch!",
+            exampleTranslation: "Goodbye! Have a nice day!",
+            grammarTopics: [.greetings],
+            thematicCategory: .greetings,
+            level: .a1,
+            cardType: .vocabulary
+        ),
+        Flashcard(
+            german: "Bitte / Danke",
+            english: "Please / Thank you",
+            explanation: "Essential polite expressions. 'Bitte' also means 'you're welcome'.",
+            example: "Einen Kaffee, bitte. - Danke schön!",
+            exampleTranslation: "A coffee, please. - Thank you very much!",
+            grammarTopics: [.greetings],
+            thematicCategory: .greetings,
+            level: .a1,
+            cardType: .vocabulary
+        ),
+        Flashcard(
+            german: "Entschuldigung",
+            english: "Excuse me / Sorry",
+            explanation: "Used to get attention or apologize. Also 'Entschuldigen Sie'.",
+            example: "Entschuldigung, wo ist der Bahnhof?",
+            exampleTranslation: "Excuse me, where is the train station?",
+            grammarTopics: [.greetings],
+            thematicCategory: .greetings,
+            level: .a1,
+            cardType: .vocabulary
+        ),
+        Flashcard(
+            german: "Freut mich",
+            english: "Nice to meet you",
+            explanation: "Short for 'Es freut mich, Sie kennenzulernen'.",
+            example: "Ich bin Maria. - Freut mich, ich bin Thomas.",
+            exampleTranslation: "I'm Maria. - Nice to meet you, I'm Thomas.",
+            grammarTopics: [.greetings],
+            thematicCategory: .introductions,
+            level: .a1,
+            cardType: .vocabulary
+        ),
+        Flashcard(
+            german: "Woher kommen Sie? / Woher kommst du?",
+            english: "Where are you from? (formal/informal)",
+            explanation: "Asking about origin. 'Kommen aus' + country.",
+            example: "Woher kommst du? - Ich komme aus Frankreich.",
+            exampleTranslation: "Where are you from? - I come from France.",
+            grammarTopics: [.questions, .greetings],
+            thematicCategory: .introductions,
+            level: .a1,
+            cardType: .sentence
+        ),
+        Flashcard(
+            german: "Ich wohne in...",
+            english: "I live in...",
+            explanation: "Describing where you live. 'In' + city/country.",
+            example: "Ich wohne in Berlin. Und Sie?",
+            exampleTranslation: "I live in Berlin. And you?",
+            grammarTopics: [.prepositions, .greetings],
+            thematicCategory: .introductions,
+            level: .a1,
+            cardType: .sentence
+        ),
+        Flashcard(
+            german: "Was machen Sie beruflich?",
+            english: "What do you do for work?",
+            explanation: "Formal way to ask about someone's job.",
+            example: "Was machen Sie beruflich? - Ich bin Ingenieur.",
+            exampleTranslation: "What do you do for work? - I'm an engineer.",
+            grammarTopics: [.questions, .greetings],
+            thematicCategory: .work,
+            level: .a1,
+            cardType: .sentence
+        ),
+        Flashcard(
+            german: "Sprechen Sie Englisch?",
+            english: "Do you speak English?",
+            explanation: "Asking about language ability. Formal 'Sie' form.",
+            example: "Sprechen Sie Englisch? - Ja, ein bisschen.",
+            exampleTranslation: "Do you speak English? - Yes, a little.",
+            grammarTopics: [.questions, .verbs],
+            thematicCategory: .introductions,
+            level: .a1,
+            cardType: .sentence
+        ),
+    ]
+
+    // MARK: - Numbers (A1)
+
+    static let numbersCards: [Flashcard] = [
+        Flashcard(
+            german: "null, eins, zwei, drei, vier, fünf",
+            english: "0, 1, 2, 3, 4, 5",
+            explanation: "Numbers 0-5. Foundation for all German numbers.",
+            example: "Ich habe drei Kinder.",
+            exampleTranslation: "I have three children.",
+            grammarTopics: [.numbers],
+            thematicCategory: .dailyRoutine,
+            level: .a1,
+            cardType: .vocabulary
+        ),
+        Flashcard(
+            german: "sechs, sieben, acht, neun, zehn",
+            english: "6, 7, 8, 9, 10",
+            explanation: "Numbers 6-10. Note 'sieben' and 'neun' pronunciations.",
+            example: "Das Buch hat zehn Kapitel.",
+            exampleTranslation: "The book has ten chapters.",
+            grammarTopics: [.numbers],
+            thematicCategory: .dailyRoutine,
+            level: .a1,
+            cardType: .vocabulary
+        ),
+        Flashcard(
+            german: "elf, zwölf, dreizehn, vierzehn, fünfzehn",
+            english: "11, 12, 13, 14, 15",
+            explanation: "Numbers 11-15. 'Elf' and 'zwölf' are irregular.",
+            example: "Sie ist fünfzehn Jahre alt.",
+            exampleTranslation: "She is fifteen years old.",
+            grammarTopics: [.numbers],
+            thematicCategory: .dailyRoutine,
+            level: .a1,
+            cardType: .vocabulary
+        ),
+        Flashcard(
+            german: "zwanzig, dreißig, vierzig, fünfzig",
+            english: "20, 30, 40, 50",
+            explanation: "Tens. Note 'dreißig' (30) is irregular - ß not z.",
+            example: "Mein Vater ist fünfzig Jahre alt.",
+            exampleTranslation: "My father is fifty years old.",
+            grammarTopics: [.numbers],
+            thematicCategory: .family,
+            level: .a1,
+            cardType: .vocabulary
+        ),
+        Flashcard(
+            german: "einundzwanzig (21), zweiunddreißig (32)",
+            english: "German numbers: ones BEFORE tens",
+            explanation: "In German, you say 'one-and-twenty' not 'twenty-one'.",
+            example: "Ich bin vierundzwanzig Jahre alt.",
+            exampleTranslation: "I am twenty-four years old.",
+            grammarTopics: [.numbers],
+            thematicCategory: .introductions,
+            level: .a1,
+            cardType: .grammar,
+            grammarTip: "45 = fünfundvierzig (five-and-forty)"
+        ),
+        Flashcard(
+            german: "hundert, tausend, eine Million",
+            english: "100, 1000, one million",
+            explanation: "Larger numbers. 'Eine Million' uses feminine article.",
+            example: "Die Stadt hat eine Million Einwohner.",
+            exampleTranslation: "The city has one million inhabitants.",
+            grammarTopics: [.numbers],
+            thematicCategory: .travel,
+            level: .a1,
+            cardType: .vocabulary
+        ),
+        Flashcard(
+            german: "erst-, zweit-, dritt-, viert-",
+            english: "first, second, third, fourth (ordinal)",
+            explanation: "Ordinal numbers. Add '-te' (1-19) or '-ste' (20+).",
+            example: "Das ist mein erstes Mal in Deutschland.",
+            exampleTranslation: "This is my first time in Germany.",
+            grammarTopics: [.numbers],
+            thematicCategory: .travel,
+            level: .a2,
+            cardType: .grammar,
+            grammarTip: "erst, zweit, dritt are irregular. Then: viert, fünft, sechst..."
+        ),
+    ]
+
+    // MARK: - Time (A1)
+
+    static let timeCards: [Flashcard] = [
+        Flashcard(
+            german: "Wie spät ist es? / Wie viel Uhr ist es?",
+            english: "What time is it?",
+            explanation: "Two ways to ask the time. Both equally common.",
+            example: "Entschuldigung, wie spät ist es? - Es ist drei Uhr.",
+            exampleTranslation: "Excuse me, what time is it? - It's three o'clock.",
+            grammarTopics: [.time, .questions],
+            thematicCategory: .dailyRoutine,
+            level: .a1,
+            cardType: .sentence
+        ),
+        Flashcard(
+            german: "Es ist halb drei.",
+            english: "It's half past two (2:30).",
+            explanation: "German 'half' refers to halfway TO the next hour!",
+            example: "Wann kommst du? - Um halb drei.",
+            exampleTranslation: "When are you coming? - At half past two.",
+            grammarTopics: [.time],
+            thematicCategory: .dailyRoutine,
+            level: .a1,
+            cardType: .vocabulary,
+            grammarTip: "halb drei = 2:30 (half TO three), NOT 3:30!"
+        ),
+        Flashcard(
+            german: "Viertel vor / Viertel nach",
+            english: "Quarter to / Quarter past",
+            explanation: "Quarter hours. 'Vor' = before, 'nach' = after.",
+            example: "Es ist Viertel vor acht. (7:45)",
+            exampleTranslation: "It's quarter to eight.",
+            grammarTopics: [.time],
+            thematicCategory: .dailyRoutine,
+            level: .a1,
+            cardType: .vocabulary
+        ),
+        Flashcard(
+            german: "morgens, mittags, abends, nachts",
+            english: "in the morning, at noon, in the evening, at night",
+            explanation: "Times of day as adverbs. Add -s to make adverbs.",
+            example: "Ich arbeite morgens und abends lerne ich Deutsch.",
+            exampleTranslation: "I work in the morning and learn German in the evening.",
+            grammarTopics: [.time],
+            thematicCategory: .dailyRoutine,
+            level: .a1,
+            cardType: .vocabulary
+        ),
+        Flashcard(
+            german: "heute, morgen, gestern, übermorgen",
+            english: "today, tomorrow, yesterday, day after tomorrow",
+            explanation: "Time expressions. German has a word for 'day after tomorrow'!",
+            example: "Gestern war ich müde. Heute geht es mir besser.",
+            exampleTranslation: "Yesterday I was tired. Today I feel better.",
+            grammarTopics: [.time],
+            thematicCategory: .dailyRoutine,
+            level: .a1,
+            cardType: .vocabulary
+        ),
+        Flashcard(
+            german: "Montag, Dienstag, Mittwoch, Donnerstag, Freitag",
+            english: "Monday, Tuesday, Wednesday, Thursday, Friday",
+            explanation: "Weekdays. Always masculine (der Montag). Use 'am' for 'on'.",
+            example: "Am Montag habe ich frei.",
+            exampleTranslation: "On Monday I'm off.",
+            grammarTopics: [.time, .nouns],
+            thematicCategory: .work,
+            level: .a1,
+            cardType: .vocabulary,
+            grammarTip: "am Montag = on Monday (an + dem = am)"
+        ),
+        Flashcard(
+            german: "Samstag/Sonnabend, Sonntag",
+            english: "Saturday, Sunday",
+            explanation: "Weekend days. 'Sonnabend' is used in northern Germany.",
+            example: "Am Wochenende schlafe ich lange.",
+            exampleTranslation: "On the weekend I sleep late.",
+            grammarTopics: [.time, .nouns],
+            thematicCategory: .hobbies,
+            level: .a1,
+            cardType: .vocabulary
+        ),
+        Flashcard(
+            german: "Januar, Februar, März, April, Mai, Juni",
+            english: "January, February, March, April, May, June",
+            explanation: "Months (first half). Always masculine. Use 'im' for 'in'.",
+            example: "Im März beginnt der Frühling.",
+            exampleTranslation: "In March, spring begins.",
+            grammarTopics: [.time, .nouns],
+            thematicCategory: .dailyRoutine,
+            level: .a1,
+            cardType: .vocabulary,
+            grammarTip: "im Januar = in January (in + dem = im)"
+        ),
+        Flashcard(
+            german: "Juli, August, September, Oktober, November, Dezember",
+            english: "July, August, September, October, November, December",
+            explanation: "Months (second half). German Dezember, not December.",
+            example: "Im Dezember feiern wir Weihnachten.",
+            exampleTranslation: "In December we celebrate Christmas.",
+            grammarTopics: [.time, .nouns],
+            thematicCategory: .culture,
+            level: .a1,
+            cardType: .vocabulary
+        ),
+    ]
+
+    // MARK: - B1 Grammar (Intermediate)
+
+    static let b1GrammarCards: [Flashcard] = [
+        // Relative Clauses
+        Flashcard(
+            german: "der, die, das (relative pronouns)",
+            english: "who, which, that (in relative clauses)",
+            explanation: "Relative pronouns match the gender of the noun they refer to.",
+            example: "Der Mann, der dort steht, ist mein Vater.",
+            exampleTranslation: "The man who stands there is my father.",
+            grammarTopics: [.relativeClauses, .pronouns],
+            thematicCategory: .family,
+            level: .b1,
+            cardType: .grammar,
+            grammarTip: "Relative pronoun matches noun gender: der Mann, DER...; die Frau, DIE..."
+        ),
+        Flashcard(
+            german: "Das ist das Buch, das ich gelesen habe.",
+            english: "That is the book that I read.",
+            explanation: "Relative clause with neuter noun. Verb goes to end.",
+            example: "Das Haus, das wir gekauft haben, ist sehr alt.",
+            exampleTranslation: "The house that we bought is very old.",
+            grammarTopics: [.relativeClauses, .wordOrder],
+            thematicCategory: .home,
+            level: .b1,
+            cardType: .sentence
+        ),
+        Flashcard(
+            german: "Die Frau, deren Mann Arzt ist...",
+            english: "The woman whose husband is a doctor...",
+            explanation: "'Deren' = whose (for feminine/plural), 'dessen' = whose (for masculine/neuter).",
+            example: "Der Student, dessen Arbeit gut war, hat bestanden.",
+            exampleTranslation: "The student whose work was good passed.",
+            grammarTopics: [.relativeClauses, .genitive],
+            thematicCategory: .work,
+            level: .b1,
+            cardType: .grammar
+        ),
+
+        // Passive Voice
+        Flashcard(
+            german: "werden + past participle (Passive)",
+            english: "Passive voice: is being done",
+            explanation: "German passive uses 'werden' + past participle. Agent uses 'von'.",
+            example: "Das Buch wird gelesen. / Das Buch wurde geschrieben.",
+            exampleTranslation: "The book is being read. / The book was written.",
+            grammarTopics: [.passive, .verbs],
+            thematicCategory: .culture,
+            level: .b1,
+            cardType: .grammar,
+            grammarTip: "Present passive: wird gemacht. Past passive: wurde gemacht."
+        ),
+        Flashcard(
+            german: "Das Auto wird repariert.",
+            english: "The car is being repaired.",
+            explanation: "Present tense passive. Focus is on the action, not who does it.",
+            example: "Hier wird Deutsch gesprochen.",
+            exampleTranslation: "German is spoken here.",
+            grammarTopics: [.passive, .presentTense],
+            thematicCategory: .work,
+            level: .b1,
+            cardType: .sentence
+        ),
+        Flashcard(
+            german: "von + dative (passive agent)",
+            english: "by (someone) in passive sentences",
+            explanation: "The 'doer' in passive sentences is introduced with 'von'.",
+            example: "Das Buch wurde von Goethe geschrieben.",
+            exampleTranslation: "The book was written by Goethe.",
+            grammarTopics: [.passive, .dative, .prepositions],
+            thematicCategory: .culture,
+            level: .b1,
+            cardType: .grammar
+        ),
+
+        // Subjunctive II
+        Flashcard(
+            german: "Konjunktiv II (would/could)",
+            english: "Subjunctive for wishes, hypotheticals",
+            explanation: "Used for unreal conditions, polite requests, wishes.",
+            example: "Ich würde gern nach Japan reisen.",
+            exampleTranslation: "I would like to travel to Japan.",
+            grammarTopics: [.subjunctive, .verbs],
+            thematicCategory: .travel,
+            level: .b1,
+            cardType: .grammar,
+            grammarTip: "würde + infinitive is the most common form"
+        ),
+        Flashcard(
+            german: "hätte, wäre, könnte, müsste",
+            english: "would have, would be, could, would have to",
+            explanation: "Common verbs have their own subjunctive forms (not würde +).",
+            example: "Wenn ich Zeit hätte, würde ich mehr lesen.",
+            exampleTranslation: "If I had time, I would read more.",
+            grammarTopics: [.subjunctive, .verbs],
+            thematicCategory: .hobbies,
+            level: .b1,
+            cardType: .vocabulary,
+            grammarTip: "haben→hätte, sein→wäre, können→könnte, müssen→müsste"
+        ),
+        Flashcard(
+            german: "Wenn ich reich wäre, würde ich...",
+            english: "If I were rich, I would...",
+            explanation: "Conditional sentences with subjunctive II.",
+            example: "Wenn ich du wäre, würde ich das nicht tun.",
+            exampleTranslation: "If I were you, I wouldn't do that.",
+            grammarTopics: [.subjunctive, .connectors],
+            thematicCategory: .opinions,
+            level: .b1,
+            cardType: .sentence
+        ),
+
+        // Advanced Connectors
+        Flashcard(
+            german: "obwohl, obgleich (although)",
+            english: "although, even though",
+            explanation: "Subordinating conjunctions - verb goes to end.",
+            example: "Obwohl es regnet, gehe ich spazieren.",
+            exampleTranslation: "Although it's raining, I'm going for a walk.",
+            grammarTopics: [.connectors, .subordinateClauses],
+            thematicCategory: .opinions,
+            level: .b1,
+            cardType: .grammar
+        ),
+        Flashcard(
+            german: "bevor, nachdem, während",
+            english: "before, after, while",
+            explanation: "Temporal conjunctions for time relationships.",
+            example: "Bevor ich esse, wasche ich mir die Hände.",
+            exampleTranslation: "Before I eat, I wash my hands.",
+            grammarTopics: [.connectors, .wordOrder],
+            thematicCategory: .dailyRoutine,
+            level: .b1,
+            cardType: .grammar,
+            grammarTip: "After nachdem, use one tense back: Nachdem ich gegessen HATTE, ging ich."
+        ),
+        Flashcard(
+            german: "falls, sofern (if/in case)",
+            english: "if, in case, provided that",
+            explanation: "Conditional conjunctions, more formal than 'wenn'.",
+            example: "Falls du Fragen hast, ruf mich an.",
+            exampleTranslation: "If you have questions, call me.",
+            grammarTopics: [.connectors, .subordinateClauses],
+            thematicCategory: .work,
+            level: .b1,
+            cardType: .grammar
+        ),
+        Flashcard(
+            german: "je... desto/umso",
+            english: "the more... the more",
+            explanation: "Comparative construction. 'Je' clause has verb at end.",
+            example: "Je mehr ich lerne, desto besser verstehe ich.",
+            exampleTranslation: "The more I learn, the better I understand.",
+            grammarTopics: [.connectors, .wordOrder],
+            thematicCategory: .opinions,
+            level: .b1,
+            cardType: .grammar
+        ),
+
+        // Two-way prepositions in depth
+        Flashcard(
+            german: "Wohin? → Akkusativ / Wo? → Dativ",
+            english: "Motion → Accusative / Location → Dative",
+            explanation: "Two-way prepositions change case based on movement vs location.",
+            example: "Ich gehe in DEN Park. (motion) Ich bin in DEM Park. (location)",
+            exampleTranslation: "I go into the park. / I am in the park.",
+            grammarTopics: [.prepositions, .accusative, .dative],
+            thematicCategory: .travel,
+            level: .b1,
+            cardType: .grammar,
+            grammarTip: "Ask: Is there movement TO a place? → Accusative. Staying put? → Dative."
+        ),
+    ]
+
+    // MARK: - B2 Grammar (Upper Intermediate)
+
+    static let b2GrammarCards: [Flashcard] = [
+        // Genitive Case
+        Flashcard(
+            german: "Genitive case: des, der, des, der",
+            english: "The genitive case shows possession",
+            explanation: "Genitive: des (m/n), der (f/pl). Masculine/neuter nouns add -(e)s.",
+            example: "Das ist das Auto meines Vaters.",
+            exampleTranslation: "That is my father's car.",
+            grammarTopics: [.genitive, .articles],
+            thematicCategory: .family,
+            level: .b2,
+            cardType: .grammar,
+            grammarTip: "Genitive: der Vater → des Vaters, die Mutter → der Mutter"
+        ),
+        Flashcard(
+            german: "während, wegen, trotz, statt (+ Genitive)",
+            english: "during, because of, despite, instead of",
+            explanation: "These prepositions require genitive case.",
+            example: "Wegen des Wetters bleiben wir zu Hause.",
+            exampleTranslation: "Because of the weather, we stay at home.",
+            grammarTopics: [.genitive, .prepositions],
+            thematicCategory: .opinions,
+            level: .b2,
+            cardType: .grammar,
+            grammarTip: "Colloquially, dative is often used instead of genitive."
+        ),
+        Flashcard(
+            german: "innerhalb, außerhalb, oberhalb, unterhalb",
+            english: "inside of, outside of, above, below",
+            explanation: "Location prepositions that take genitive.",
+            example: "Innerhalb der Stadt gibt es viele Parks.",
+            exampleTranslation: "Inside the city there are many parks.",
+            grammarTopics: [.genitive, .prepositions],
+            thematicCategory: .directions,
+            level: .b2,
+            cardType: .vocabulary
+        ),
+
+        // Complex Sentences
+        Flashcard(
+            german: "Double infinitive with modals",
+            english: "haben + infinitive + infinitive modal",
+            explanation: "In Perfekt with modals, use double infinitive instead of past participle.",
+            example: "Ich habe nicht kommen können.",
+            exampleTranslation: "I couldn't come.",
+            grammarTopics: [.modalVerbs, .perfectTense, .wordOrder],
+            thematicCategory: .work,
+            level: .b2,
+            cardType: .grammar,
+            grammarTip: "NOT 'gekonnt' but 'können' when another infinitive is present."
+        ),
+        Flashcard(
+            german: "Partizip I (present participle)",
+            english: "verb stem + -d + adjective endings",
+            explanation: "Used as adjective: the singing bird = der singende Vogel.",
+            example: "Das schlafende Kind liegt im Bett.",
+            exampleTranslation: "The sleeping child lies in bed.",
+            grammarTopics: [.verbs],
+            thematicCategory: .family,
+            level: .b2,
+            cardType: .grammar,
+            grammarTip: "singen → singend → der singende Vogel"
+        ),
+        Flashcard(
+            german: "Extended participial phrases",
+            english: "Long adjective phrases before nouns",
+            explanation: "German can pack entire clauses into participial phrases.",
+            example: "Der in Berlin lebende Student kommt aus Japan.",
+            exampleTranslation: "The student living in Berlin comes from Japan.",
+            grammarTopics: [.wordOrder],
+            thematicCategory: .work,
+            level: .b2,
+            cardType: .grammar
+        ),
+
+        // Idioms
+        Flashcard(
+            german: "Daumen drücken",
+            english: "To cross fingers / wish luck",
+            explanation: "Literally 'press thumbs'. Germans press thumbs, not cross fingers!",
+            example: "Ich drücke dir die Daumen für die Prüfung!",
+            exampleTranslation: "I'll keep my fingers crossed for your exam!",
+            grammarTopics: [.idioms],
+            thematicCategory: .culture,
+            level: .b2,
+            cardType: .vocabulary
+        ),
+        Flashcard(
+            german: "Das ist nicht mein Bier.",
+            english: "That's not my problem/business.",
+            explanation: "Literally 'that's not my beer'. Common way to say 'not my concern'.",
+            example: "Ob er kommt oder nicht, das ist nicht mein Bier.",
+            exampleTranslation: "Whether he comes or not, that's not my problem.",
+            grammarTopics: [.idioms],
+            thematicCategory: .opinions,
+            level: .b2,
+            cardType: .vocabulary
+        ),
+        Flashcard(
+            german: "Schwein haben",
+            english: "To be lucky",
+            explanation: "Literally 'to have pig'. Pigs are lucky in German culture.",
+            example: "Du hast Schwein gehabt! Du hast den letzten Platz bekommen.",
+            exampleTranslation: "You were lucky! You got the last spot.",
+            grammarTopics: [.idioms],
+            thematicCategory: .culture,
+            level: .b2,
+            cardType: .vocabulary
+        ),
+        Flashcard(
+            german: "Da steppt der Bär.",
+            english: "That's where the party is.",
+            explanation: "Literally 'the bear dances there'. Means it's going to be lively.",
+            example: "Auf der Party steppt der Bär!",
+            exampleTranslation: "The party is going to be wild!",
+            grammarTopics: [.idioms],
+            thematicCategory: .hobbies,
+            level: .b2,
+            cardType: .vocabulary
+        ),
+        Flashcard(
+            german: "Tomaten auf den Augen haben",
+            english: "To be oblivious / not see what's obvious",
+            explanation: "Literally 'to have tomatoes on your eyes'.",
+            example: "Hast du Tomaten auf den Augen? Das steht direkt vor dir!",
+            exampleTranslation: "Are you blind? It's right in front of you!",
+            grammarTopics: [.idioms],
+            thematicCategory: .opinions,
+            level: .b2,
+            cardType: .vocabulary
+        ),
+        Flashcard(
+            german: "Ich verstehe nur Bahnhof.",
+            english: "I don't understand anything.",
+            explanation: "Literally 'I only understand train station'. Complete confusion.",
+            example: "Kannst du das nochmal erklären? Ich verstehe nur Bahnhof.",
+            exampleTranslation: "Can you explain that again? I don't understand anything.",
+            grammarTopics: [.idioms],
+            thematicCategory: .opinions,
+            level: .b2,
+            cardType: .vocabulary
+        ),
+        Flashcard(
+            german: "Das ist mir Wurst.",
+            english: "I don't care.",
+            explanation: "Literally 'that's sausage to me'. Expressing indifference.",
+            example: "Gehen wir ins Kino oder essen? - Das ist mir Wurst.",
+            exampleTranslation: "Shall we go to cinema or eat? - I don't care.",
+            grammarTopics: [.idioms],
+            thematicCategory: .opinions,
+            level: .b2,
+            cardType: .vocabulary
+        ),
+
+        // Formal vs Informal
+        Flashcard(
+            german: "Sie vs du",
+            english: "Formal vs informal 'you'",
+            explanation: "Use 'Sie' with strangers, professionals, elders. 'Du' with friends, family, children.",
+            example: "Können Sie mir helfen? (formal) / Kannst du mir helfen? (informal)",
+            exampleTranslation: "Can you help me?",
+            grammarTopics: [.pronouns, .greetings],
+            thematicCategory: .work,
+            level: .b2,
+            cardType: .grammar,
+            grammarTip: "When in doubt, use Sie. Wait for others to offer 'du'."
+        ),
+        Flashcard(
+            german: "Könnten Sie... / Würden Sie...",
+            english: "Could you... / Would you... (formal requests)",
+            explanation: "Konjunktiv II for polite requests in formal situations.",
+            example: "Könnten Sie das bitte wiederholen?",
+            exampleTranslation: "Could you please repeat that?",
+            grammarTopics: [.subjunctive, .greetings],
+            thematicCategory: .work,
+            level: .b2,
+            cardType: .sentence
+        ),
+        Flashcard(
+            german: "Ich hätte gern... (I would like...)",
+            english: "Polite way to order/request",
+            explanation: "More polite than 'Ich möchte', perfect for restaurants and shops.",
+            example: "Ich hätte gern einen Kaffee mit Milch, bitte.",
+            exampleTranslation: "I would like a coffee with milk, please.",
+            grammarTopics: [.subjunctive, .greetings],
+            thematicCategory: .food,
+            level: .b2,
+            cardType: .sentence
+        ),
+    ]
+
+    // MARK: - Expanded Vocabulary
+
+    static let expandedVocabularyCards: [Flashcard] = [
+        // Daily Routine
+        Flashcard(
+            german: "aufwachen",
+            english: "to wake up",
+            explanation: "Separable verb. Ich wache auf.",
+            example: "Ich wache jeden Tag um 6 Uhr auf.",
+            exampleTranslation: "I wake up at 6 o'clock every day.",
+            grammarTopics: [.separableVerbs],
+            thematicCategory: .dailyRoutine,
+            level: .a1,
+            cardType: .vocabulary
+        ),
+        Flashcard(
+            german: "sich duschen",
+            english: "to shower (oneself)",
+            explanation: "Reflexive verb. Ich dusche mich.",
+            example: "Ich dusche mich morgens.",
+            exampleTranslation: "I shower in the morning.",
+            grammarTopics: [.verbs],
+            thematicCategory: .dailyRoutine,
+            level: .a1,
+            cardType: .vocabulary
+        ),
+        Flashcard(
+            german: "frühstücken",
+            english: "to have breakfast",
+            explanation: "Regular verb, no separation.",
+            example: "Was frühstückst du normalerweise?",
+            exampleTranslation: "What do you usually have for breakfast?",
+            grammarTopics: [.verbs],
+            thematicCategory: .food,
+            level: .a1,
+            cardType: .vocabulary
+        ),
+
+        // Shopping
+        Flashcard(
+            german: "Wie viel kostet das?",
+            english: "How much does that cost?",
+            explanation: "Essential shopping question.",
+            example: "Wie viel kostet das T-Shirt? - Es kostet 20 Euro.",
+            exampleTranslation: "How much does the T-shirt cost? - It costs 20 euros.",
+            grammarTopics: [.questions],
+            thematicCategory: .shopping,
+            level: .a1,
+            cardType: .sentence
+        ),
+        Flashcard(
+            german: "billig / teuer",
+            english: "cheap / expensive",
+            explanation: "Price adjectives.",
+            example: "Das ist zu teuer. Haben Sie etwas Billigeres?",
+            exampleTranslation: "That's too expensive. Do you have something cheaper?",
+            grammarTopics: [.nouns],
+            thematicCategory: .shopping,
+            level: .a1,
+            cardType: .vocabulary
+        ),
+        Flashcard(
+            german: "der Laden, das Geschäft, der Supermarkt",
+            english: "shop, store, supermarket",
+            explanation: "Places to shop. All have different genders!",
+            example: "Der Supermarkt ist um die Ecke.",
+            exampleTranslation: "The supermarket is around the corner.",
+            grammarTopics: [.nouns, .articles],
+            thematicCategory: .shopping,
+            level: .a1,
+            cardType: .vocabulary
+        ),
+
+        // Health
+        Flashcard(
+            german: "Mir ist schlecht.",
+            english: "I feel sick/nauseous.",
+            explanation: "Dative construction for physical feeling.",
+            example: "Mir ist schlecht. Ich muss zum Arzt.",
+            exampleTranslation: "I feel sick. I need to go to the doctor.",
+            grammarTopics: [.dative],
+            thematicCategory: .health,
+            level: .a2,
+            cardType: .sentence
+        ),
+        Flashcard(
+            german: "Ich habe Kopfschmerzen / Bauchschmerzen.",
+            english: "I have a headache / stomach ache.",
+            explanation: "Body part + Schmerzen (pains).",
+            example: "Ich kann nicht arbeiten. Ich habe starke Kopfschmerzen.",
+            exampleTranslation: "I can't work. I have a bad headache.",
+            grammarTopics: [.nouns],
+            thematicCategory: .health,
+            level: .a1,
+            cardType: .sentence
+        ),
+
+        // Work
+        Flashcard(
+            german: "die Besprechung, das Meeting",
+            english: "meeting",
+            explanation: "Both words are used. 'Meeting' is borrowed from English.",
+            example: "Ich habe um 14 Uhr eine Besprechung.",
+            exampleTranslation: "I have a meeting at 2 pm.",
+            grammarTopics: [.nouns],
+            thematicCategory: .work,
+            level: .a2,
+            cardType: .vocabulary
+        ),
+        Flashcard(
+            german: "der Chef / die Chefin",
+            english: "boss (male/female)",
+            explanation: "Job titles often have feminine forms with -in.",
+            example: "Meine Chefin ist sehr nett.",
+            exampleTranslation: "My boss is very nice.",
+            grammarTopics: [.nouns],
+            thematicCategory: .work,
+            level: .a2,
+            cardType: .vocabulary
+        ),
+        Flashcard(
+            german: "die E-Mail schreiben / beantworten",
+            english: "to write / answer an email",
+            explanation: "Email vocabulary for office work.",
+            example: "Ich muss noch viele E-Mails beantworten.",
+            exampleTranslation: "I still have to answer many emails.",
+            grammarTopics: [.verbs],
+            thematicCategory: .work,
+            level: .a2,
+            cardType: .vocabulary
+        ),
+
+        // Hobbies
+        Flashcard(
+            german: "Sport treiben / Sport machen",
+            english: "to do sports",
+            explanation: "Two ways to say 'do sports'. Both are common.",
+            example: "Wie oft treibst du Sport? - Zweimal pro Woche.",
+            exampleTranslation: "How often do you do sports? - Twice a week.",
+            grammarTopics: [.verbs],
+            thematicCategory: .hobbies,
+            level: .a1,
+            cardType: .sentence
+        ),
+        Flashcard(
+            german: "fernsehen",
+            english: "to watch TV",
+            explanation: "Separable verb: Ich sehe fern.",
+            example: "Abends sehe ich gern fern.",
+            exampleTranslation: "In the evening I like to watch TV.",
+            grammarTopics: [.separableVerbs],
+            thematicCategory: .hobbies,
+            level: .a2,
+            cardType: .vocabulary
+        ),
+        Flashcard(
+            german: "spazieren gehen",
+            english: "to go for a walk",
+            explanation: "Verb + gehen construction.",
+            example: "Am Sonntag gehen wir im Park spazieren.",
+            exampleTranslation: "On Sunday we go for a walk in the park.",
+            grammarTopics: [.verbs],
+            thematicCategory: .hobbies,
+            level: .a1,
+            cardType: .vocabulary
+        ),
+
+        // Opinions
+        Flashcard(
+            german: "Ich finde, dass...",
+            english: "I think that...",
+            explanation: "Expressing opinion. 'Dass' sends verb to end.",
+            example: "Ich finde, dass Deutsch interessant ist.",
+            exampleTranslation: "I think that German is interesting.",
+            grammarTopics: [.connectors, .subordinateClauses],
+            thematicCategory: .opinions,
+            level: .a2,
+            cardType: .sentence
+        ),
+        Flashcard(
+            german: "Meiner Meinung nach...",
+            english: "In my opinion...",
+            explanation: "Formal way to give opinion. Takes dative.",
+            example: "Meiner Meinung nach ist das eine gute Idee.",
+            exampleTranslation: "In my opinion, that's a good idea.",
+            grammarTopics: [.dative],
+            thematicCategory: .opinions,
+            level: .b1,
+            cardType: .sentence
+        ),
+        Flashcard(
+            german: "Ich stimme (nicht) zu.",
+            english: "I (don't) agree.",
+            explanation: "Agreeing or disagreeing. 'Zustimmen' is separable.",
+            example: "Da stimme ich dir voll zu!",
+            exampleTranslation: "I completely agree with you on that!",
+            grammarTopics: [.separableVerbs],
+            thematicCategory: .opinions,
+            level: .a2,
+            cardType: .sentence
+        ),
+
+        // Emotions
+        Flashcard(
+            german: "Ich freue mich auf + Akk.",
+            english: "I'm looking forward to",
+            explanation: "Reflexive verb + preposition 'auf' + accusative.",
+            example: "Ich freue mich auf das Wochenende.",
+            exampleTranslation: "I'm looking forward to the weekend.",
+            grammarTopics: [.verbs, .prepositions],
+            thematicCategory: .opinions,
+            level: .a2,
+            cardType: .sentence,
+            grammarTip: "auf + accusative for future events"
+        ),
+        Flashcard(
+            german: "Ich freue mich über + Akk.",
+            english: "I'm happy about",
+            explanation: "Same verb, different preposition = different meaning!",
+            example: "Ich freue mich über dein Geschenk.",
+            exampleTranslation: "I'm happy about your gift.",
+            grammarTopics: [.verbs, .prepositions],
+            thematicCategory: .opinions,
+            level: .a2,
+            cardType: .sentence,
+            grammarTip: "über + accusative for something that already happened"
+        ),
+        Flashcard(
+            german: "Ich habe Angst vor + Dat.",
+            english: "I'm afraid of",
+            explanation: "Fear construction: Angst haben vor + dative.",
+            example: "Ich habe Angst vor Spinnen.",
+            exampleTranslation: "I'm afraid of spiders.",
+            grammarTopics: [.prepositions, .dative],
+            thematicCategory: .opinions,
+            level: .a2,
+            cardType: .sentence
+        ),
+    ]
+
     // MARK: - Swipe Sentences
 
     static let swipeSentences: [SwipeSentence] = [
@@ -1125,6 +2044,232 @@ struct GermanContent {
             grammarTopics: [.dative, .verbs],
             level: .a2,
             errorType: .caseError
+        ),
+
+        // B1 Level - Correct sentences
+        SwipeSentence(
+            sentence: "Der Mann, der dort steht, ist mein Vater.",
+            translation: "The man who stands there is my father.",
+            isCorrect: true,
+            explanation: "Correct relative clause! 'Der' matches masculine 'Mann', verb 'steht' at end of clause.",
+            grammarTopics: [.relativeClauses, .wordOrder],
+            level: .b1
+        ),
+        SwipeSentence(
+            sentence: "Das Buch wird von vielen Menschen gelesen.",
+            translation: "The book is read by many people.",
+            isCorrect: true,
+            explanation: "Perfect passive construction! 'Wird' + past participle, 'von' + dative for agent.",
+            grammarTopics: [.passive, .verbs],
+            level: .b1
+        ),
+        SwipeSentence(
+            sentence: "Wenn ich mehr Zeit hätte, würde ich mehr lesen.",
+            translation: "If I had more time, I would read more.",
+            isCorrect: true,
+            explanation: "Correct Konjunktiv II! 'Hätte' for 'haben', 'würde' + infinitive for the result.",
+            grammarTopics: [.subjunctive],
+            level: .b1
+        ),
+        SwipeSentence(
+            sentence: "Bevor ich das Haus verlasse, mache ich das Licht aus.",
+            translation: "Before I leave the house, I turn off the light.",
+            isCorrect: true,
+            explanation: "Correct use of 'bevor'! Verb goes to end in the subordinate clause.",
+            grammarTopics: [.connectors, .subordinateClauses],
+            level: .b1
+        ),
+        SwipeSentence(
+            sentence: "Je mehr ich übe, desto besser werde ich.",
+            translation: "The more I practice, the better I get.",
+            isCorrect: true,
+            explanation: "Perfect 'je...desto' construction! 'Je' clause has verb at end, 'desto' has verb in position 2.",
+            grammarTopics: [.connectors, .wordOrder],
+            level: .b1
+        ),
+
+        // B1 Level - Incorrect sentences
+        SwipeSentence(
+            sentence: "Der Mann, der steht dort, ist mein Vater.",
+            translation: "The man who stands there is my father.",
+            isCorrect: false,
+            explanation: "In relative clauses, the verb must go to the END! 'Der dort steht' not 'der steht dort'.",
+            correctVersion: "Der Mann, der dort steht, ist mein Vater.",
+            grammarTopics: [.relativeClauses, .wordOrder],
+            level: .b1,
+            errorType: .wordOrder
+        ),
+        SwipeSentence(
+            sentence: "Das Buch ist gelesen von vielen Menschen.",
+            translation: "The book is read by many people.",
+            isCorrect: false,
+            explanation: "Passive needs 'werden' not 'sein'! 'Sein' + participle describes a state, not an action.",
+            correctVersion: "Das Buch wird von vielen Menschen gelesen.",
+            grammarTopics: [.passive, .verbs],
+            level: .b1,
+            errorType: .verbConjugation
+        ),
+        SwipeSentence(
+            sentence: "Wenn ich hätte mehr Zeit, ich würde mehr lesen.",
+            translation: "If I had more time, I would read more.",
+            isCorrect: false,
+            explanation: "Word order error! After 'wenn', verb goes to end. In the main clause, verb is position 2.",
+            correctVersion: "Wenn ich mehr Zeit hätte, würde ich mehr lesen.",
+            grammarTopics: [.subjunctive, .wordOrder],
+            level: .b1,
+            errorType: .wordOrder
+        ),
+        SwipeSentence(
+            sentence: "Obwohl es regnet, aber ich gehe spazieren.",
+            translation: "Although it's raining, I go for a walk.",
+            isCorrect: false,
+            explanation: "'Obwohl' and 'aber' are redundant! Use one or the other, not both.",
+            correctVersion: "Obwohl es regnet, gehe ich spazieren.",
+            grammarTopics: [.connectors],
+            level: .b1,
+            errorType: .wordOrder
+        ),
+        SwipeSentence(
+            sentence: "Der Film, den ich gesehen habe, war es gut.",
+            translation: "The film that I saw was good.",
+            isCorrect: false,
+            explanation: "Remove 'es'! The subject 'der Film' is already stated. 'War gut' is sufficient.",
+            correctVersion: "Der Film, den ich gesehen habe, war gut.",
+            grammarTopics: [.relativeClauses],
+            level: .b1,
+            errorType: .wordOrder
+        ),
+
+        // B2 Level - Correct sentences
+        SwipeSentence(
+            sentence: "Wegen des schlechten Wetters sind wir zu Hause geblieben.",
+            translation: "Because of the bad weather, we stayed home.",
+            isCorrect: true,
+            explanation: "Perfect genitive! 'Wegen' + genitive (des schlechten Wetters).",
+            grammarTopics: [.genitive, .prepositions],
+            level: .b2
+        ),
+        SwipeSentence(
+            sentence: "Das ist das Buch, dessen Autor sehr bekannt ist.",
+            translation: "That is the book whose author is very famous.",
+            isCorrect: true,
+            explanation: "Correct 'dessen'! Genitive relative pronoun for masculine/neuter.",
+            grammarTopics: [.relativeClauses, .genitive],
+            level: .b2
+        ),
+        SwipeSentence(
+            sentence: "Ich hätte gern einen Kaffee, wenn es Ihnen nichts ausmacht.",
+            translation: "I would like a coffee, if you don't mind.",
+            isCorrect: true,
+            explanation: "Perfect polite request! 'Hätte gern' + subjunctive in the condition.",
+            grammarTopics: [.subjunctive, .greetings],
+            level: .b2
+        ),
+        SwipeSentence(
+            sentence: "Er muss gestern nicht haben arbeiten können.",
+            translation: "He must not have been able to work yesterday.",
+            isCorrect: true,
+            explanation: "Complex modal structure! Double infinitive at end: 'arbeiten können'.",
+            grammarTopics: [.modalVerbs, .perfectTense],
+            level: .b2
+        ),
+
+        // B2 Level - Incorrect sentences
+        SwipeSentence(
+            sentence: "Wegen dem schlechten Wetter sind wir zu Hause geblieben.",
+            translation: "Because of the bad weather, we stayed home.",
+            isCorrect: false,
+            explanation: "'Wegen' requires genitive! 'dem Wetter' is dative. Should be 'des Wetters'.",
+            correctVersion: "Wegen des schlechten Wetters sind wir zu Hause geblieben.",
+            grammarTopics: [.genitive, .prepositions],
+            level: .b2,
+            errorType: .caseError
+        ),
+        SwipeSentence(
+            sentence: "Das ist die Frau, dessen Mann Arzt ist.",
+            translation: "That is the woman whose husband is a doctor.",
+            isCorrect: false,
+            explanation: "'Dessen' is for masculine/neuter. For feminine nouns, use 'deren'!",
+            correctVersion: "Das ist die Frau, deren Mann Arzt ist.",
+            grammarTopics: [.relativeClauses, .genitive],
+            level: .b2,
+            errorType: .caseError
+        ),
+        SwipeSentence(
+            sentence: "Innerhalb das Gebäude ist Rauchen verboten.",
+            translation: "Inside the building, smoking is prohibited.",
+            isCorrect: false,
+            explanation: "'Innerhalb' requires genitive! 'Das Gebäude' → 'des Gebäudes'.",
+            correctVersion: "Innerhalb des Gebäudes ist Rauchen verboten.",
+            grammarTopics: [.genitive, .prepositions],
+            level: .b2,
+            errorType: .caseError
+        ),
+        SwipeSentence(
+            sentence: "Ich habe das nicht machen gekonnt.",
+            translation: "I couldn't do that.",
+            isCorrect: false,
+            explanation: "With modals in Perfekt + another infinitive, use infinitive not participle!",
+            correctVersion: "Ich habe das nicht machen können.",
+            grammarTopics: [.modalVerbs, .perfectTense],
+            level: .b2,
+            errorType: .verbConjugation
+        ),
+
+        // More A1 sentences for variety
+        SwipeSentence(
+            sentence: "Ich komme aus Deutschland.",
+            translation: "I come from Germany.",
+            isCorrect: true,
+            explanation: "Correct! 'Kommen aus' + country without article.",
+            grammarTopics: [.verbs, .prepositions],
+            level: .a1
+        ),
+        SwipeSentence(
+            sentence: "Ich komme von Deutschland.",
+            translation: "I come from Germany.",
+            isCorrect: false,
+            explanation: "'Kommen AUS' (not 'von') for origin/country!",
+            correctVersion: "Ich komme aus Deutschland.",
+            grammarTopics: [.prepositions],
+            level: .a1,
+            errorType: .prepositionError
+        ),
+        SwipeSentence(
+            sentence: "Meine Schwester ist älter als ich.",
+            translation: "My sister is older than me.",
+            isCorrect: true,
+            explanation: "Correct comparative! 'Älter' (with umlaut) + 'als' for comparison.",
+            grammarTopics: [.nouns],
+            level: .a2
+        ),
+        SwipeSentence(
+            sentence: "Meine Schwester ist älter wie ich.",
+            translation: "My sister is older than me.",
+            isCorrect: false,
+            explanation: "Use 'ALS' (not 'wie') for comparisons! 'Wie' is for equality.",
+            correctVersion: "Meine Schwester ist älter als ich.",
+            grammarTopics: [.nouns],
+            level: .a2,
+            errorType: .wordOrder
+        ),
+        SwipeSentence(
+            sentence: "Gestern bin ich ins Kino gegangen.",
+            translation: "Yesterday I went to the cinema.",
+            isCorrect: true,
+            explanation: "Perfect tense! Movement verb 'gehen' uses 'sein'. Time expression first is fine.",
+            grammarTopics: [.perfectTense, .wordOrder],
+            level: .a2
+        ),
+        SwipeSentence(
+            sentence: "Ich bin seit drei Jahren Deutsch lernend.",
+            translation: "I have been learning German for three years.",
+            isCorrect: false,
+            explanation: "German uses present tense with 'seit' for ongoing actions!",
+            correctVersion: "Ich lerne seit drei Jahren Deutsch.",
+            grammarTopics: [.presentTense, .prepositions],
+            level: .a2,
+            errorType: .tenseError
         ),
     ]
 

@@ -1,6 +1,6 @@
 import Foundation
 
-// MARK: - Grammar Topics (Linguistic Categories)
+/// MARK: - Grammar Topics (Linguistic Categories)
 
 enum GrammarTopic: String, Codable, CaseIterable, Identifiable {
     // Core Grammar
@@ -24,6 +24,7 @@ enum GrammarTopic: String, Codable, CaseIterable, Identifiable {
     case questions = "Questions"
     case connectors = "Connectors (und, aber, weil...)"
     case subordinateClauses = "Subordinate Clauses"
+    case relativeClauses = "Relative Clauses"
 
     // Tenses
     case presentTense = "Present Tense"
@@ -31,11 +32,18 @@ enum GrammarTopic: String, Codable, CaseIterable, Identifiable {
     case pastTense = "Simple Past (Präteritum)"
     case futureTense = "Future Tense"
 
+    // Advanced
+    case passive = "Passive Voice"
+    case subjunctive = "Subjunctive (Konjunktiv)"
+    case idioms = "Idiomatic Expressions"
+
     // Other
     case prepositions = "Prepositions"
     case adjectives = "Adjective Endings"
     case comparatives = "Comparatives & Superlatives"
-    case numbers = "Numbers & Time"
+    case numbers = "Numbers & Counting"
+    case time = "Time & Dates"
+    case greetings = "Greetings & Phrases"
 
     var id: String { rawValue }
 
@@ -57,14 +65,20 @@ enum GrammarTopic: String, Codable, CaseIterable, Identifiable {
         case .questions: return "questionmark.circle.fill"
         case .connectors: return "link"
         case .subordinateClauses: return "text.insert"
+        case .relativeClauses: return "arrow.triangle.branch"
         case .presentTense: return "clock.fill"
         case .perfectTense: return "checkmark.circle.fill"
         case .pastTense: return "clock.arrow.circlepath"
         case .futureTense: return "arrow.right.circle.fill"
+        case .passive: return "arrow.uturn.left.circle"
+        case .subjunctive: return "cloud.fill"
+        case .idioms: return "quote.bubble.fill"
         case .prepositions: return "arrow.up.left.and.arrow.down.right"
         case .adjectives: return "paintpalette.fill"
         case .comparatives: return "chart.bar.fill"
         case .numbers: return "number.circle.fill"
+        case .time: return "calendar"
+        case .greetings: return "hand.wave.fill"
         }
     }
 
@@ -73,20 +87,25 @@ enum GrammarTopic: String, Codable, CaseIterable, Identifiable {
         case .articles, .nouns, .pronouns: return "blue"
         case .verbs, .modalVerbs, .separableVerbs, .reflexiveVerbs: return "green"
         case .nominative, .accusative, .dative, .genitive: return "purple"
-        case .wordOrder, .negation, .questions, .connectors, .subordinateClauses: return "orange"
+        case .wordOrder, .negation, .questions, .connectors, .subordinateClauses, .relativeClauses: return "orange"
         case .presentTense, .perfectTense, .pastTense, .futureTense: return "red"
-        case .prepositions, .adjectives, .comparatives, .numbers: return "cyan"
+        case .passive, .subjunctive: return "indigo"
+        case .idioms: return "pink"
+        case .prepositions, .adjectives, .comparatives, .numbers, .time: return "cyan"
+        case .greetings: return "yellow"
         }
     }
 
     var cefrLevel: CEFRLevel {
         switch self {
-        case .articles, .nouns, .pronouns, .verbs, .nominative, .accusative, .presentTense, .negation, .questions, .numbers:
+        case .articles, .nouns, .pronouns, .verbs, .nominative, .accusative, .presentTense, .negation, .questions, .numbers, .time, .greetings:
             return .a1
         case .modalVerbs, .dative, .perfectTense, .prepositions, .wordOrder, .connectors, .separableVerbs:
             return .a2
-        case .reflexiveVerbs, .genitive, .pastTense, .subordinateClauses, .adjectives, .comparatives, .futureTense:
+        case .reflexiveVerbs, .pastTense, .subordinateClauses, .adjectives, .comparatives, .futureTense, .relativeClauses:
             return .b1
+        case .genitive, .passive, .subjunctive, .idioms:
+            return .b2
         }
     }
 
@@ -108,19 +127,25 @@ enum GrammarTopic: String, Codable, CaseIterable, Identifiable {
         case .questions: return "Forming questions in German"
         case .connectors: return "Coordinating and subordinating conjunctions"
         case .subordinateClauses: return "Dependent clauses and word order changes"
+        case .relativeClauses: return "Clauses that describe nouns (der Mann, der...)"
         case .presentTense: return "Current actions and general truths"
         case .perfectTense: return "Conversational past tense"
         case .pastTense: return "Written/narrative past tense"
         case .futureTense: return "Future actions with werden"
+        case .passive: return "Actions done to the subject (wird gemacht)"
+        case .subjunctive: return "Wishes, hypotheticals, polite requests"
+        case .idioms: return "Common German expressions and sayings"
         case .prepositions: return "Prepositions with accusative, dative, or two-way"
         case .adjectives: return "Adjective declension based on case and article"
         case .comparatives: return "Comparing things (größer, am größten)"
-        case .numbers: return "Cardinal, ordinal numbers and time expressions"
+        case .numbers: return "Cardinal and ordinal numbers"
+        case .time: return "Time expressions and dates"
+        case .greetings: return "Common greetings and everyday phrases"
         }
     }
 }
 
-// MARK: - CEFR Levels
+/// MARK: - CEFR Levels
 
 enum CEFRLevel: String, Codable, CaseIterable, Comparable {
     case a1 = "A1"
@@ -180,7 +205,7 @@ enum CEFRLevel: String, Codable, CaseIterable, Comparable {
     }
 }
 
-// MARK: - Card Type (Enhanced)
+/// MARK: - Card Type (Enhanced)
 
 enum CardType: String, Codable, CaseIterable {
     case vocabulary = "Vocabulary"
@@ -191,7 +216,7 @@ enum CardType: String, Codable, CaseIterable {
     case translation = "Translation"
 }
 
-// MARK: - Thematic Category (Topics)
+/// MARK: - Thematic Category (Topics)
 
 enum ThematicCategory: String, Codable, CaseIterable, Identifiable {
     case greetings = "Greetings"
@@ -235,7 +260,7 @@ enum ThematicCategory: String, Codable, CaseIterable, Identifiable {
     }
 }
 
-// MARK: - Enhanced Flashcard
+/// MARK: - Enhanced Flashcard
 
 struct Flashcard: Identifiable, Codable, Equatable {
     let id: UUID
@@ -305,7 +330,7 @@ struct Flashcard: Identifiable, Codable, Equatable {
     }
 }
 
-// MARK: - Verb Conjugation
+/// MARK: - Verb Conjugation
 
 struct VerbConjugation: Codable, Equatable {
     let infinitive: String
@@ -332,7 +357,7 @@ struct VerbConjugation: Codable, Equatable {
     }
 }
 
-// MARK: - Case Breakdown
+/// MARK: - Case Breakdown
 
 struct CaseBreakdown: Codable, Equatable {
     let originalSentence: String
@@ -354,7 +379,7 @@ struct CaseBreakdown: Codable, Equatable {
     }
 }
 
-// MARK: - Swipe Sentence (Enhanced)
+/// MARK: - Swipe Sentence (Enhanced)
 
 struct SwipeSentence: Identifiable, Codable {
     let id: UUID
@@ -415,7 +440,7 @@ enum GrammarErrorType: String, Codable {
     case tenseError = "Tense Error"
 }
 
-// MARK: - Quiz Question (Enhanced)
+/// MARK: - Quiz Question (Enhanced)
 
 struct QuizQuestion: Identifiable {
     let id: UUID
@@ -451,7 +476,7 @@ struct QuizQuestion: Identifiable {
     }
 }
 
-// MARK: - Card Performance (for Spaced Repetition)
+/// MARK: - Card Performance (for Spaced Repetition)
 
 struct CardPerformance: Codable, Identifiable {
     let id: UUID  // Same as card ID
@@ -534,7 +559,7 @@ struct CardPerformance: Codable, Identifiable {
     }
 }
 
-// MARK: - User Progress (Enhanced)
+/// MARK: - User Progress (Enhanced)
 
 struct UserProgress: Codable {
     var totalPoints: Int = 0
@@ -622,7 +647,7 @@ struct DailyStats: Codable {
     var timeSpentMinutes: Int = 0
 }
 
-// MARK: - Learning Session
+/// MARK: - Learning Session
 
 struct LearningSession: Identifiable {
     let id = UUID()

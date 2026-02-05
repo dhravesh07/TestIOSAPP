@@ -21,6 +21,11 @@
 		A1000012001 /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000012000 /* CategoryView.swift */; };
 		A1000013001 /* AdaptiveLearningEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000013000 /* AdaptiveLearningEngine.swift */; };
 		A1000014001 /* SpeechManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000014000 /* SpeechManager.swift */; };
+		A1000015001 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000015000 /* UserSettings.swift */; };
+		A1000016001 /* LessonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000016000 /* LessonManager.swift */; };
+		A1000017001 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000017000 /* OnboardingView.swift */; };
+		A1000018001 /* NewHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000018000 /* NewHomeView.swift */; };
+		A1000019001 /* LessonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000019000 /* LessonView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +44,11 @@
 		A1000012000 /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
 		A1000013000 /* AdaptiveLearningEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdaptiveLearningEngine.swift; sourceTree = "<group>"; };
 		A1000014000 /* SpeechManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechManager.swift; sourceTree = "<group>"; };
+		A1000015000 /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
+		A1000016000 /* LessonManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonManager.swift; sourceTree = "<group>"; };
+		A1000017000 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		A1000018000 /* NewHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewHomeView.swift; sourceTree = "<group>"; };
+		A1000019000 /* LessonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +98,8 @@
 				A1000011000 /* ProgressManager.swift */,
 				A1000013000 /* AdaptiveLearningEngine.swift */,
 				A1000014000 /* SpeechManager.swift */,
+				A1000015000 /* UserSettings.swift */,
+				A1000016000 /* LessonManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -101,6 +113,9 @@
 				A1000007000 /* QuizView.swift */,
 				A1000008000 /* ExplanationView.swift */,
 				A1000012000 /* CategoryView.swift */,
+				A1000017000 /* OnboardingView.swift */,
+				A1000018000 /* NewHomeView.swift */,
+				A1000019000 /* LessonView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -196,6 +211,11 @@
 				A1000012001 /* CategoryView.swift in Sources */,
 				A1000013001 /* AdaptiveLearningEngine.swift in Sources */,
 				A1000014001 /* SpeechManager.swift in Sources */,
+				A1000015001 /* UserSettings.swift in Sources */,
+				A1000016001 /* LessonManager.swift in Sources */,
+				A1000017001 /* OnboardingView.swift in Sources */,
+				A1000018001 /* NewHomeView.swift in Sources */,
+				A1000019001 /* LessonView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
