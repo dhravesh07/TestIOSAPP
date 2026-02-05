@@ -51,14 +51,20 @@ struct FlashcardView: View {
 
                 Spacer()
 
-                Text(flashcards[currentIndex].difficulty.rawValue)
+                // Level badge
+                Text(flashcards[currentIndex].level.rawValue)
                     .font(.caption)
                     .fontWeight(.semibold)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)
-                    .background(flashcards[currentIndex].difficulty == .a1 ? Color.green.opacity(0.2) : Color.blue.opacity(0.2))
-                    .foregroundColor(flashcards[currentIndex].difficulty == .a1 ? .green : .blue)
+                    .background(colorForLevel(flashcards[currentIndex].level).opacity(0.2))
+                    .foregroundColor(colorForLevel(flashcards[currentIndex].level))
                     .cornerRadius(8)
+
+                // Points
+                Text("+\(flashcards[currentIndex].points) pts")
+                    .font(.caption)
+                    .foregroundColor(.orange)
             }
 
             ProgressView(value: Double(currentIndex), total: Double(flashcards.count))
@@ -75,7 +81,8 @@ struct FlashcardView: View {
                 content: flashcards[currentIndex].german,
                 subtitle: "German",
                 icon: "speaker.wave.2.fill",
-                color: .blue
+                color: .blue,
+                level: flashcards[currentIndex].level
             )
             .opacity(isFlipped ? 0 : 1)
             .rotation3DEffect(.degrees(isFlipped ? 180 : 0), axis: (x: 0, y: 1, z: 0))
@@ -85,7 +92,8 @@ struct FlashcardView: View {
                 content: flashcards[currentIndex].english,
                 subtitle: "English",
                 icon: "textformat",
-                color: .green
+                color: .green,
+                level: flashcards[currentIndex].level
             )
             .opacity(isFlipped ? 1 : 0)
             .rotation3DEffect(.degrees(isFlipped ? 0 : -180), axis: (x: 0, y: 1, z: 0))
@@ -115,6 +123,7 @@ struct FlashcardView: View {
         let subtitle: String
         let icon: String
         let color: Color
+        let level: CEFRLevel
 
         var body: some View {
             VStack(spacing: 16) {
@@ -149,6 +158,23 @@ struct FlashcardView: View {
 
     private var actionButtons: some View {
         VStack(spacing: 12) {
+            // Grammar topics
+            if !flashcards[currentIndex].grammarTopics.isEmpty {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 8) {
+                        ForEach(flashcards[currentIndex].grammarTopics.prefix(3)) { topic in
+                            Text(topic.rawValue)
+                                .font(.caption2)
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 4)
+                                .background(Color.purple.opacity(0.1))
+                                .foregroundColor(.purple)
+                                .cornerRadius(8)
+                        }
+                    }
+                }
+            }
+
             Button {
                 showExplanation = true
             } label: {
@@ -259,6 +285,17 @@ struct FlashcardView: View {
 
     // MARK: - Helper Methods
 
+    private func colorForLevel(_ level: CEFRLevel) -> Color {
+        switch level {
+        case .a1: return .green
+        case .a2: return .blue
+        case .b1: return .purple
+        case .b2: return .orange
+        case .c1: return .red
+        case .c2: return .yellow
+        }
+    }
+
     private func handleSwipe(_ width: CGFloat) {
         if width > 100 {
             withAnimation(.spring()) {
@@ -305,15 +342,13 @@ struct FlashcardView: View {
 
     private func markAsMastered() {
         let card = flashcards[currentIndex]
-        progressManager.markCardMastered(card.id)
-        progressManager.recordAnswer(correct: true, cardId: card.id, category: card.category)
+        progressManager.recordAnswer(correct: true, card: card)
         nextCard()
     }
 
     private func markForReview() {
         let card = flashcards[currentIndex]
-        progressManager.markCardForReview(card.id)
-        progressManager.recordAnswer(correct: false, cardId: card.id, category: card.category)
+        progressManager.recordAnswer(correct: false, card: card)
         nextCard()
     }
 
@@ -326,7 +361,7 @@ struct FlashcardView: View {
 
 #Preview {
     NavigationStack {
-        FlashcardView(flashcards: GermanVocabulary.flashcards)
+        FlashcardView(flashcards: GermanContent.flashcards)
             .environmentObject(ProgressManager())
     }
 }

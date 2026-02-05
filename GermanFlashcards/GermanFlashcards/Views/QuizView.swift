@@ -12,6 +12,7 @@ struct QuizView: View {
     @State private var correctCount = 0
     @State private var showExplanation = false
     @State private var showFinalResults = false
+    @State private var earnedPoints = 0
 
     var body: some View {
         VStack {
@@ -67,6 +68,16 @@ struct QuizView: View {
 
                 Spacer()
 
+                // Level badge
+                Text(questions[currentIndex].level.rawValue)
+                    .font(.caption)
+                    .fontWeight(.bold)
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
+                    .background(colorForLevel(questions[currentIndex].level))
+                    .cornerRadius(8)
+
                 HStack(spacing: 4) {
                     Image(systemName: "checkmark.circle.fill")
                         .foregroundColor(.green)
@@ -110,8 +121,14 @@ struct QuizView: View {
             return "How do you say this in German?"
         case .fillInBlank:
             return "Fill in the blank:"
-        case .trueFalse:
-            return "True or False?"
+        case .selectCorrectForm:
+            return "Select the correct form:"
+        case .conjugation:
+            return "Conjugate the verb:"
+        case .caseSelection:
+            return "Which case is this?"
+        case .articleSelection:
+            return "Choose the correct article:"
         }
     }
 
@@ -123,7 +140,7 @@ struct QuizView: View {
             return question.flashcard.english
         case .fillInBlank:
             return question.flashcard.example
-        case .trueFalse:
+        default:
             return question.flashcard.german
         }
     }
@@ -213,6 +230,13 @@ struct QuizView: View {
     private var actionButton: some View {
         VStack(spacing: 12) {
             if showResult {
+                // Points earned
+                if selectedAnswer == questions[currentIndex].correctAnswer {
+                    Text("+\(questions[currentIndex].flashcard.points) points")
+                        .font(.headline)
+                        .foregroundColor(.green)
+                }
+
                 Button {
                     showExplanation = true
                 } label: {
@@ -274,6 +298,10 @@ struct QuizView: View {
                     .font(.system(size: 48, weight: .bold))
                     .foregroundColor(resultColor(for: percentage))
 
+                Text("+\(earnedPoints) points earned")
+                    .font(.headline)
+                    .foregroundColor(.orange)
+
                 Text(resultMessage(for: percentage))
                     .font(.headline)
                     .foregroundColor(.secondary)
@@ -319,9 +347,51 @@ struct QuizView: View {
     // MARK: - Helper Methods
 
     private func generateQuestions() {
-        let selectedCards = Array(flashcards.shuffled().prefix(10))
+        let selectedCards = Array(flashcards.shuffled().prefix(min(10, flashcards.count)))
         questions = selectedCards.map { card in
-            GermanVocabulary.generateQuizQuestion(from: card, allFlashcards: flashcards)
+            generateQuizQuestion(from: card, allFlashcards: flashcards)
+        }
+    }
+
+    private func generateQuizQuestion(from flashcard: Flashcard, allFlashcards: [Flashcard]) -> QuizQuestion {
+        let questionTypes: [QuizQuestion.QuestionType] = [.germanToEnglish, .englishToGerman]
+        let questionType = questionTypes.randomElement()!
+
+        let correctAnswer: String
+
+        switch questionType {
+        case .germanToEnglish:
+            correctAnswer = flashcard.english
+            let wrongOptions = allFlashcards
+                .filter { $0.id != flashcard.id }
+                .shuffled()
+                .prefix(3)
+                .map { $0.english }
+            var options = Array(wrongOptions) + [correctAnswer]
+            options.shuffle()
+            return QuizQuestion(flashcard: flashcard, questionType: questionType, options: options, correctAnswer: correctAnswer)
+
+        case .englishToGerman:
+            correctAnswer = flashcard.german
+            let wrongOptions = allFlashcards
+                .filter { $0.id != flashcard.id }
+                .shuffled()
+                .prefix(3)
+                .map { $0.german }
+            var options = Array(wrongOptions) + [correctAnswer]
+            options.shuffle()
+            return QuizQuestion(flashcard: flashcard, questionType: questionType, options: options, correctAnswer: correctAnswer)
+
+        default:
+            correctAnswer = flashcard.english
+            let wrongOptions = allFlashcards
+                .filter { $0.id != flashcard.id }
+                .shuffled()
+                .prefix(3)
+                .map { $0.english }
+            var options = Array(wrongOptions) + [correctAnswer]
+            options.shuffle()
+            return QuizQuestion(flashcard: flashcard, questionType: questionType, options: options, correctAnswer: correctAnswer)
         }
     }
 
@@ -332,9 +402,10 @@ struct QuizView: View {
 
         if isCorrect {
             correctCount += 1
+            earnedPoints += question.flashcard.points
         }
 
-        progressManager.recordAnswer(correct: isCorrect, cardId: question.flashcard.id, category: question.flashcard.category)
+        progressManager.recordAnswer(correct: isCorrect, card: question.flashcard)
     }
 
     private func nextQuestion() {
@@ -352,8 +423,20 @@ struct QuizView: View {
         selectedAnswer = nil
         showResult = false
         correctCount = 0
+        earnedPoints = 0
         showFinalResults = false
         generateQuestions()
+    }
+
+    private func colorForLevel(_ level: CEFRLevel) -> Color {
+        switch level {
+        case .a1: return .green
+        case .a2: return .blue
+        case .b1: return .purple
+        case .b2: return .orange
+        case .c1: return .red
+        case .c2: return .yellow
+        }
     }
 
     private func resultIcon(for percentage: Double) -> String {
@@ -395,7 +478,7 @@ struct QuizView: View {
 
 #Preview {
     NavigationStack {
-        QuizView(flashcards: GermanVocabulary.flashcards)
+        QuizView(flashcards: GermanContent.flashcards)
             .environmentObject(ProgressManager())
     }
 }

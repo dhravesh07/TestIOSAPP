@@ -7,24 +7,7 @@ struct HomeView: View {
     var body: some View {
         TabView(selection: $selectedTab) {
             NavigationStack {
-                ScrollView {
-                    VStack(spacing: 24) {
-                        // Header
-                        headerSection
-
-                        // Progress Card
-                        progressCard
-
-                        // Quick Actions
-                        quickActionsSection
-
-                        // Categories
-                        categoriesSection
-                    }
-                    .padding()
-                }
-                .background(Color(.systemGroupedBackground))
-                .navigationTitle("German A2")
+                MainLearningView()
             }
             .tabItem {
                 Label("Learn", systemImage: "book.fill")
@@ -32,68 +15,184 @@ struct HomeView: View {
             .tag(0)
 
             NavigationStack {
-                CategoryListView()
+                GrammarTopicsListView()
             }
             .tabItem {
-                Label("Categories", systemImage: "folder.fill")
+                Label("Grammar", systemImage: "text.book.closed.fill")
             }
             .tag(1)
 
             NavigationStack {
-                ProgressView()
+                LevelsView()
             }
             .tabItem {
-                Label("Progress", systemImage: "chart.bar.fill")
+                Label("Levels", systemImage: "chart.bar.fill")
             }
             .tag(2)
+
+            NavigationStack {
+                ProgressDetailView()
+            }
+            .tabItem {
+                Label("Progress", systemImage: "chart.pie.fill")
+            }
+            .tag(3)
         }
         .tint(.blue)
     }
+}
 
-    // MARK: - Header Section
+// MARK: - Main Learning View
 
-    private var headerSection: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Willkommen!")
-                .font(.largeTitle)
-                .fontWeight(.bold)
+struct MainLearningView: View {
+    @EnvironmentObject var progressManager: ProgressManager
 
-            Text("Continue your German learning journey")
-                .font(.subheadline)
-                .foregroundColor(.secondary)
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 20) {
+                // Level Progress Card
+                levelProgressCard
+
+                // Today's Stats
+                todayStatsCard
+
+                // Quick Actions
+                quickActionsSection
+
+                // Grammar Topics Preview
+                grammarTopicsPreview
+
+                // Level-based Learning Preview
+                levelBasedPreview
+            }
+            .padding()
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color(.systemGroupedBackground))
+        .navigationTitle("German A1-A2")
     }
 
-    // MARK: - Progress Card
+    // MARK: - Level Progress Card
 
-    private var progressCard: some View {
+    private var levelProgressCard: some View {
         VStack(spacing: 16) {
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Your Progress")
-                        .font(.headline)
-
-                    Text("\(progressManager.progress.masteredCards.count) cards mastered")
-                        .font(.caption)
+                    Text("Your Level")
+                        .font(.subheadline)
                         .foregroundColor(.secondary)
+
+                    HStack(alignment: .firstTextBaseline, spacing: 8) {
+                        Text(progressManager.getCurrentLevel().rawValue)
+                            .font(.system(size: 48, weight: .bold, design: .rounded))
+                            .foregroundColor(colorForLevel(progressManager.getCurrentLevel()))
+
+                        Text(progressManager.getCurrentLevel().name)
+                            .font(.title3)
+                            .foregroundColor(.secondary)
+                    }
                 }
 
                 Spacer()
 
-                CircularProgressView(progress: progressManager.progress.accuracy / 100)
+                // Points badge
+                VStack(alignment: .trailing, spacing: 4) {
+                    Text("\(progressManager.progress.totalPoints)")
+                        .font(.system(size: 28, weight: .bold, design: .rounded))
+                        .foregroundColor(.orange)
+                    Text("points")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
             }
 
-            HStack(spacing: 20) {
-                StatItem(value: "\(progressManager.progress.totalAnswers)", label: "Answered")
-                StatItem(value: "\(progressManager.progress.correctAnswers)", label: "Correct")
-                StatItem(value: "\(progressManager.getStreak())", label: "Streak")
+            // Progress to next level
+            VStack(alignment: .leading, spacing: 8) {
+                HStack {
+                    Text("Progress to next level")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    Spacer()
+                    Text("\(progressManager.getPointsToNextLevel()) pts needed")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+
+                GeometryReader { geometry in
+                    ZStack(alignment: .leading) {
+                        RoundedRectangle(cornerRadius: 4)
+                            .fill(Color.gray.opacity(0.2))
+                            .frame(height: 8)
+
+                        RoundedRectangle(cornerRadius: 4)
+                            .fill(
+                                LinearGradient(
+                                    colors: [.blue, .purple],
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
+                            )
+                            .frame(width: geometry.size.width * progressManager.getProgressToNextLevel(), height: 8)
+                    }
+                }
+                .frame(height: 8)
+            }
+
+            // Streak
+            HStack {
+                Image(systemName: "flame.fill")
+                    .foregroundColor(.orange)
+                Text("\(progressManager.getCurrentStreak()) day streak")
+                    .font(.subheadline)
+                    .fontWeight(.medium)
+
+                Spacer()
+
+                Text("Best: \(progressManager.getLongestStreak()) days")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
             }
         }
         .padding()
         .background(Color(.systemBackground))
         .cornerRadius(16)
-        .shadow(color: .black.opacity(0.05), radius: 10, x: 0, y: 5)
+        .shadow(color: .black.opacity(0.05), radius: 10)
+    }
+
+    // MARK: - Today's Stats
+
+    private var todayStatsCard: some View {
+        let stats = progressManager.getTodayStats()
+
+        return VStack(alignment: .leading, spacing: 12) {
+            Text("Today")
+                .font(.headline)
+
+            HStack(spacing: 20) {
+                StatItem(
+                    value: "\(stats.cardsStudied)",
+                    label: "Cards",
+                    icon: "rectangle.stack.fill",
+                    color: .blue
+                )
+
+                StatItem(
+                    value: stats.totalAnswers > 0 ? "\(Int(Double(stats.correctAnswers) / Double(stats.totalAnswers) * 100))%" : "-",
+                    label: "Accuracy",
+                    icon: "target",
+                    color: .green
+                )
+
+                StatItem(
+                    value: "+\(stats.pointsEarned)",
+                    label: "Points",
+                    icon: "star.fill",
+                    color: .orange
+                )
+            }
+        }
+        .padding()
+        .background(Color(.systemBackground))
+        .cornerRadius(16)
     }
 
     // MARK: - Quick Actions
@@ -103,117 +202,140 @@ struct HomeView: View {
             Text("Quick Start")
                 .font(.headline)
 
-            HStack(spacing: 12) {
+            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
                 NavigationLink {
-                    SwipeCardView(sentences: GermanVocabulary.swipeSentences.shuffled())
+                    AdaptiveQuizView(mode: .mixed)
+                        .environmentObject(progressManager)
                 } label: {
                     QuickActionCard(
-                        title: "Swipe Practice",
-                        subtitle: "Right or wrong?",
-                        icon: "hand.draw.fill",
+                        title: "Smart Practice",
+                        subtitle: "Adaptive learning",
+                        icon: "brain.head.profile",
+                        color: .purple
+                    )
+                }
+
+                NavigationLink {
+                    AdaptiveQuizView(mode: .reviewOnly)
+                        .environmentObject(progressManager)
+                } label: {
+                    QuickActionCard(
+                        title: "Review",
+                        subtitle: "\(progressManager.getCardsForReview().count) cards due",
+                        icon: "arrow.clockwise",
                         color: .orange
                     )
                 }
 
                 NavigationLink {
-                    QuizView(flashcards: GermanVocabulary.flashcards.shuffled())
+                    SwipeCardView(sentences: GermanContent.swipeSentences(for: progressManager.getCurrentLevel()).shuffled())
+                        .environmentObject(progressManager)
                 } label: {
                     QuickActionCard(
-                        title: "Quiz Mode",
-                        subtitle: "Test yourself",
-                        icon: "questionmark.circle.fill",
-                        color: .purple
-                    )
-                }
-            }
-
-            HStack(spacing: 12) {
-                NavigationLink {
-                    FlashcardView(flashcards: GermanVocabulary.flashcards.shuffled())
-                } label: {
-                    QuickActionCard(
-                        title: "Flashcards",
-                        subtitle: "Learn vocabulary",
-                        icon: "rectangle.stack.fill",
-                        color: .blue
-                    )
-                }
-
-                NavigationLink {
-                    FlashcardView(flashcards: GermanVocabulary.flashcards.filter { $0.cardType == .grammar })
-                } label: {
-                    QuickActionCard(
-                        title: "Grammar",
-                        subtitle: "Essential rules",
-                        icon: "text.book.closed.fill",
+                        title: "Swipe Practice",
+                        subtitle: "Right or wrong?",
+                        icon: "hand.draw.fill",
                         color: .green
+                    )
+                }
+
+                NavigationLink {
+                    LevelTestView(level: progressManager.getCurrentLevel())
+                        .environmentObject(progressManager)
+                } label: {
+                    QuickActionCard(
+                        title: "Level Test",
+                        subtitle: "Check your level",
+                        icon: "checkmark.seal.fill",
+                        color: .blue
                     )
                 }
             }
         }
     }
 
-    // MARK: - Categories Section
+    // MARK: - Grammar Topics Preview
 
-    private var categoriesSection: some View {
+    private var grammarTopicsPreview: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
-                Text("Categories")
+                Text("Grammar Topics")
                     .font(.headline)
-
                 Spacer()
-
                 NavigationLink("See All") {
-                    CategoryListView()
+                    GrammarTopicsListView()
+                        .environmentObject(progressManager)
                 }
                 .font(.subheadline)
             }
 
-            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
-                ForEach(Category.allCases.prefix(4)) { category in
-                    NavigationLink {
-                        CategoryDetailView(category: category)
-                    } label: {
-                        CategoryCard(category: category, progress: progressManager.getCategoryProgress(for: category))
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 12) {
+                    ForEach(GrammarTopic.allCases.filter { $0.cefrLevel <= progressManager.getCurrentLevel() }.prefix(6)) { topic in
+                        NavigationLink {
+                            GrammarTopicDetailView(topic: topic)
+                                .environmentObject(progressManager)
+                        } label: {
+                            GrammarTopicCard(topic: topic, progress: progressManager.getGrammarProgress(topic))
+                        }
                     }
                 }
             }
+        }
+    }
+
+    // MARK: - Level-based Preview
+
+    private var levelBasedPreview: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Learn by Level")
+                .font(.headline)
+
+            ForEach([CEFRLevel.a1, .a2], id: \.self) { level in
+                NavigationLink {
+                    LevelLearningView(level: level)
+                        .environmentObject(progressManager)
+                } label: {
+                    LevelCard(
+                        level: level,
+                        progress: progressManager.getLevelProgress(level),
+                        isCurrentLevel: level == progressManager.getCurrentLevel()
+                    )
+                }
+            }
+        }
+    }
+
+    // MARK: - Helpers
+
+    private func colorForLevel(_ level: CEFRLevel) -> Color {
+        switch level {
+        case .a1: return .green
+        case .a2: return .blue
+        case .b1: return .purple
+        case .b2: return .orange
+        case .c1: return .red
+        case .c2: return .yellow
         }
     }
 }
 
 // MARK: - Supporting Views
 
-struct CircularProgressView: View {
-    let progress: Double
-
-    var body: some View {
-        ZStack {
-            Circle()
-                .stroke(Color.gray.opacity(0.2), lineWidth: 8)
-
-            Circle()
-                .trim(from: 0, to: min(progress, 1.0))
-                .stroke(Color.blue, style: StrokeStyle(lineWidth: 8, lineCap: .round))
-                .rotationEffect(.degrees(-90))
-                .animation(.easeInOut, value: progress)
-
-            Text("\(Int(progress * 100))%")
-                .font(.caption)
-                .fontWeight(.bold)
-        }
-        .frame(width: 50, height: 50)
-    }
-}
-
 struct StatItem: View {
     let value: String
     let label: String
+    let icon: String
+    let color: Color
 
     var body: some View {
-        VStack(spacing: 4) {
-            Text(value)
+        VStack(spacing: 8) {
+            Image(systemName: icon)
                 .font(.title2)
+                .foregroundColor(color)
+
+            Text(value)
+                .font(.title3)
                 .fontWeight(.bold)
 
             Text(label)
@@ -249,154 +371,767 @@ struct QuickActionCard: View {
         .padding()
         .background(Color(.systemBackground))
         .cornerRadius(12)
-        .shadow(color: .black.opacity(0.05), radius: 5, x: 0, y: 2)
     }
 }
 
-struct CategoryCard: View {
-    let category: Category
-    let progress: CategoryProgress
+struct GrammarTopicCard: View {
+    let topic: GrammarTopic
+    let progress: TopicProgress
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Image(systemName: category.icon)
+            Image(systemName: topic.icon)
                 .font(.title2)
-                .foregroundColor(colorFromString(category.color))
+                .foregroundColor(colorFromString(topic.color))
 
-            Text(category.rawValue)
+            Text(topic.rawValue)
                 .font(.caption)
                 .fontWeight(.medium)
                 .foregroundColor(.primary)
                 .lineLimit(2)
                 .multilineTextAlignment(.leading)
 
-            if progress.total > 0 {
-                ProgressView(value: progress.percentage, total: 100)
-                    .tint(colorFromString(category.color))
+            // Progress bar
+            GeometryReader { geometry in
+                ZStack(alignment: .leading) {
+                    RoundedRectangle(cornerRadius: 2)
+                        .fill(Color.gray.opacity(0.2))
+                        .frame(height: 4)
+
+                    RoundedRectangle(cornerRadius: 2)
+                        .fill(colorFromString(topic.color))
+                        .frame(width: geometry.size.width * min(progress.masteryPercentage / 100, 1.0), height: 4)
+                }
             }
+            .frame(height: 4)
+
+            Text("\(Int(progress.accuracy))% accuracy")
+                .font(.caption2)
+                .foregroundColor(.secondary)
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
+        .frame(width: 120)
         .padding()
         .background(Color(.systemBackground))
         .cornerRadius(12)
-        .shadow(color: .black.opacity(0.05), radius: 5, x: 0, y: 2)
     }
 
     private func colorFromString(_ colorName: String) -> Color {
         switch colorName {
-        case "orange": return .orange
         case "blue": return .blue
-        case "pink": return .pink
         case "green": return .green
         case "purple": return .purple
-        case "yellow": return .yellow
-        case "cyan": return .cyan
+        case "orange": return .orange
         case "red": return .red
-        case "indigo": return .indigo
-        case "mint": return .mint
-        case "brown": return .brown
-        case "gray": return .gray
+        case "cyan": return .cyan
         default: return .blue
         }
     }
 }
 
-// MARK: - Category List View
+struct LevelCard: View {
+    let level: CEFRLevel
+    let progress: LevelProgress
+    let isCurrentLevel: Bool
 
-struct CategoryListView: View {
     var body: some View {
-        List(Category.allCases) { category in
-            NavigationLink {
-                CategoryDetailView(category: category)
-            } label: {
-                HStack(spacing: 12) {
-                    Image(systemName: category.icon)
-                        .font(.title2)
-                        .frame(width: 40)
+        HStack(spacing: 16) {
+            // Level badge
+            Text(level.rawValue)
+                .font(.title2)
+                .fontWeight(.bold)
+                .foregroundColor(.white)
+                .frame(width: 50, height: 50)
+                .background(colorForLevel(level))
+                .cornerRadius(12)
 
-                    VStack(alignment: .leading) {
-                        Text(category.rawValue)
-                            .font(.headline)
+            VStack(alignment: .leading, spacing: 4) {
+                HStack {
+                    Text(level.name)
+                        .font(.headline)
+                        .foregroundColor(.primary)
 
-                        Text("\(GermanVocabulary.flashcards(for: category).count) cards")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
+                    if isCurrentLevel {
+                        Text("CURRENT")
+                            .font(.caption2)
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 2)
+                            .background(Color.green)
+                            .cornerRadius(4)
                     }
                 }
-                .padding(.vertical, 4)
+
+                Text(level.description)
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                    .lineLimit(1)
+
+                // Progress
+                HStack {
+                    Text("\(progress.cardsMastered)/\(max(progress.totalCards, GermanContent.flashcards(for: level).count)) mastered")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+
+                    Spacer()
+
+                    Text("\(Int(progress.averageAccuracy))% accuracy")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
             }
+
+            Spacer()
+
+            Image(systemName: "chevron.right")
+                .foregroundColor(.secondary)
         }
-        .navigationTitle("Categories")
+        .padding()
+        .background(Color(.systemBackground))
+        .cornerRadius(12)
+    }
+
+    private func colorForLevel(_ level: CEFRLevel) -> Color {
+        switch level {
+        case .a1: return .green
+        case .a2: return .blue
+        case .b1: return .purple
+        case .b2: return .orange
+        case .c1: return .red
+        case .c2: return .yellow
+        }
     }
 }
 
-// MARK: - Progress View
+// MARK: - Adaptive Quiz View
 
-struct ProgressView: View {
+struct AdaptiveQuizView: View {
+    let mode: AdaptiveLearningEngine.SelectionMode
+    @EnvironmentObject var progressManager: ProgressManager
+
+    var body: some View {
+        let engine = AdaptiveLearningEngine(progressManager: progressManager)
+        let cards = engine.getAdaptiveCards(count: 10, from: GermanContent.flashcards, mode: mode)
+
+        QuizView(flashcards: cards.isEmpty ? Array(GermanContent.flashcards.shuffled().prefix(10)) : cards)
+            .environmentObject(progressManager)
+    }
+}
+
+// MARK: - Level Test View
+
+struct LevelTestView: View {
+    let level: CEFRLevel
+    @EnvironmentObject var progressManager: ProgressManager
+
+    var body: some View {
+        let cards = GermanContent.flashcards(for: level).shuffled().prefix(20)
+        QuizView(flashcards: Array(cards.isEmpty ? GermanContent.flashcards.shuffled().prefix(10) : cards))
+            .environmentObject(progressManager)
+            .navigationTitle("\(level.rawValue) Level Test")
+    }
+}
+
+// MARK: - Grammar Topics List View
+
+struct GrammarTopicsListView: View {
+    @EnvironmentObject var progressManager: ProgressManager
+
+    private let columns = [
+        GridItem(.flexible()),
+        GridItem(.flexible())
+    ]
+
+    var body: some View {
+        ScrollView {
+            LazyVGrid(columns: columns, spacing: 16) {
+                ForEach(GrammarTopic.allCases) { topic in
+                    NavigationLink {
+                        GrammarTopicDetailView(topic: topic)
+                            .environmentObject(progressManager)
+                    } label: {
+                        GrammarTopicLargeCard(topic: topic, progress: progressManager.getGrammarProgress(topic))
+                    }
+                }
+            }
+            .padding()
+        }
+        .navigationTitle("Grammar Topics")
+        .background(Color(.systemGroupedBackground))
+    }
+}
+
+struct GrammarTopicLargeCard: View {
+    let topic: GrammarTopic
+    let progress: TopicProgress
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Image(systemName: topic.icon)
+                    .font(.title)
+                    .foregroundColor(colorFromString(topic.color))
+
+                Spacer()
+
+                Text(topic.cefrLevel.rawValue)
+                    .font(.caption)
+                    .fontWeight(.bold)
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
+                    .background(colorFromString(topic.cefrLevel.color))
+                    .cornerRadius(8)
+            }
+
+            Text(topic.rawValue)
+                .font(.subheadline)
+                .fontWeight(.semibold)
+                .foregroundColor(.primary)
+                .lineLimit(2)
+                .multilineTextAlignment(.leading)
+
+            Text(topic.description)
+                .font(.caption)
+                .foregroundColor(.secondary)
+                .lineLimit(2)
+
+            Spacer()
+
+            // Progress
+            VStack(alignment: .leading, spacing: 4) {
+                GeometryReader { geometry in
+                    ZStack(alignment: .leading) {
+                        RoundedRectangle(cornerRadius: 2)
+                            .fill(Color.gray.opacity(0.2))
+                            .frame(height: 4)
+
+                        RoundedRectangle(cornerRadius: 2)
+                            .fill(colorFromString(topic.color))
+                            .frame(width: geometry.size.width * min(progress.masteryPercentage / 100, 1.0), height: 4)
+                    }
+                }
+                .frame(height: 4)
+
+                Text("\(progress.cardsStudied) studied | \(Int(progress.accuracy))% accuracy")
+                    .font(.caption2)
+                    .foregroundColor(.secondary)
+            }
+        }
+        .frame(height: 160)
+        .padding()
+        .background(Color(.systemBackground))
+        .cornerRadius(16)
+    }
+
+    private func colorFromString(_ colorName: String) -> Color {
+        switch colorName {
+        case "blue": return .blue
+        case "green": return .green
+        case "purple": return .purple
+        case "orange": return .orange
+        case "red": return .red
+        case "cyan": return .cyan
+        case "yellow": return .yellow
+        default: return .blue
+        }
+    }
+}
+
+// MARK: - Grammar Topic Detail View
+
+struct GrammarTopicDetailView: View {
+    let topic: GrammarTopic
+    @EnvironmentObject var progressManager: ProgressManager
+
+    private var topicCards: [Flashcard] {
+        GermanContent.flashcards(for: topic)
+    }
+
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 20) {
+                // Header
+                VStack(spacing: 12) {
+                    Image(systemName: topic.icon)
+                        .font(.system(size: 50))
+                        .foregroundColor(colorFromString(topic.color))
+
+                    Text(topic.rawValue)
+                        .font(.title2)
+                        .fontWeight(.bold)
+
+                    Text(topic.description)
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
+
+                    Text("Level: \(topic.cefrLevel.rawValue)")
+                        .font(.caption)
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
+                        .background(colorFromString(topic.cefrLevel.color))
+                        .cornerRadius(8)
+                }
+                .padding()
+
+                // Stats
+                let progress = progressManager.getGrammarProgress(topic)
+                HStack(spacing: 20) {
+                    StatItem(value: "\(topicCards.count)", label: "Cards", icon: "rectangle.stack.fill", color: .blue)
+                    StatItem(value: "\(progress.cardsStudied)", label: "Studied", icon: "checkmark.circle.fill", color: .green)
+                    StatItem(value: "\(Int(progress.accuracy))%", label: "Accuracy", icon: "target", color: .orange)
+                }
+                .padding()
+                .background(Color(.systemBackground))
+                .cornerRadius(12)
+
+                // Actions
+                VStack(spacing: 12) {
+                    NavigationLink {
+                        FlashcardView(flashcards: topicCards.shuffled())
+                            .environmentObject(progressManager)
+                    } label: {
+                        ActionButton(title: "Study Flashcards", icon: "rectangle.stack.fill", color: .blue)
+                    }
+
+                    NavigationLink {
+                        QuizView(flashcards: topicCards.shuffled())
+                            .environmentObject(progressManager)
+                    } label: {
+                        ActionButton(title: "Take Quiz", icon: "questionmark.circle.fill", color: .purple)
+                    }
+
+                    let swipeSentences = GermanContent.swipeSentences(for: topic)
+                    if !swipeSentences.isEmpty {
+                        NavigationLink {
+                            SwipeCardView(sentences: swipeSentences.shuffled())
+                                .environmentObject(progressManager)
+                        } label: {
+                            ActionButton(title: "Swipe Practice", icon: "hand.draw.fill", color: .green)
+                        }
+                    }
+                }
+            }
+            .padding()
+        }
+        .navigationTitle(topic.rawValue)
+        .navigationBarTitleDisplayMode(.inline)
+        .background(Color(.systemGroupedBackground))
+    }
+
+    private func colorFromString(_ colorName: String) -> Color {
+        switch colorName {
+        case "blue": return .blue
+        case "green": return .green
+        case "purple": return .purple
+        case "orange": return .orange
+        case "red": return .red
+        case "cyan": return .cyan
+        case "yellow": return .yellow
+        default: return .blue
+        }
+    }
+}
+
+struct ActionButton: View {
+    let title: String
+    let icon: String
+    let color: Color
+
+    var body: some View {
+        HStack {
+            Image(systemName: icon)
+                .font(.title3)
+            Text(title)
+                .fontWeight(.semibold)
+            Spacer()
+            Image(systemName: "chevron.right")
+        }
+        .foregroundColor(.white)
+        .padding()
+        .background(color)
+        .cornerRadius(12)
+    }
+}
+
+// MARK: - Levels View
+
+struct LevelsView: View {
+    @EnvironmentObject var progressManager: ProgressManager
+
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 20) {
+                ForEach([CEFRLevel.a1, .a2], id: \.self) { level in
+                    NavigationLink {
+                        LevelLearningView(level: level)
+                            .environmentObject(progressManager)
+                    } label: {
+                        LevelDetailCard(level: level, progress: progressManager.getLevelProgress(level), isCurrentLevel: level == progressManager.getCurrentLevel())
+                    }
+                }
+            }
+            .padding()
+        }
+        .navigationTitle("Levels")
+        .background(Color(.systemGroupedBackground))
+    }
+}
+
+struct LevelDetailCard: View {
+    let level: CEFRLevel
+    let progress: LevelProgress
+    let isCurrentLevel: Bool
+
+    var body: some View {
+        VStack(spacing: 16) {
+            HStack {
+                Text(level.rawValue)
+                    .font(.system(size: 40, weight: .bold, design: .rounded))
+                    .foregroundColor(colorForLevel(level))
+
+                VStack(alignment: .leading, spacing: 4) {
+                    HStack {
+                        Text(level.name)
+                            .font(.title3)
+                            .fontWeight(.bold)
+                            .foregroundColor(.primary)
+
+                        if isCurrentLevel {
+                            Text("CURRENT")
+                                .font(.caption2)
+                                .fontWeight(.bold)
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 6)
+                                .padding(.vertical, 2)
+                                .background(Color.green)
+                                .cornerRadius(4)
+                        }
+                    }
+
+                    Text(level.description)
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+
+                Spacer()
+
+                Image(systemName: "chevron.right")
+                    .foregroundColor(.secondary)
+            }
+
+            HStack(spacing: 20) {
+                VStack {
+                    Text("\(GermanContent.flashcards(for: level).count)")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                    Text("Cards")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+
+                VStack {
+                    Text("\(progress.cardsStudied)")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                    Text("Studied")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+
+                VStack {
+                    Text("\(progress.cardsMastered)")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                    Text("Mastered")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+
+                VStack {
+                    Text("\(Int(progress.averageAccuracy))%")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                    Text("Accuracy")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+            }
+        }
+        .padding()
+        .background(Color(.systemBackground))
+        .cornerRadius(16)
+    }
+
+    private func colorForLevel(_ level: CEFRLevel) -> Color {
+        switch level {
+        case .a1: return .green
+        case .a2: return .blue
+        case .b1: return .purple
+        case .b2: return .orange
+        case .c1: return .red
+        case .c2: return .yellow
+        }
+    }
+}
+
+// MARK: - Level Learning View
+
+struct LevelLearningView: View {
+    let level: CEFRLevel
+    @EnvironmentObject var progressManager: ProgressManager
+
+    private var levelCards: [Flashcard] {
+        GermanContent.flashcards(for: level)
+    }
+
+    private var levelTopics: [GrammarTopic] {
+        GrammarTopic.allCases.filter { $0.cefrLevel == level }
+    }
+
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 20) {
+                // Level info
+                VStack(spacing: 12) {
+                    Text(level.rawValue)
+                        .font(.system(size: 60, weight: .bold, design: .rounded))
+                        .foregroundColor(colorForLevel(level))
+
+                    Text(level.name)
+                        .font(.title2)
+                        .fontWeight(.semibold)
+
+                    Text(level.description)
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
+                }
+                .padding()
+
+                // Progress
+                let progress = progressManager.getLevelProgress(level)
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Your Progress")
+                        .font(.headline)
+
+                    HStack(spacing: 20) {
+                        StatItem(value: "\(levelCards.count)", label: "Total Cards", icon: "rectangle.stack.fill", color: .blue)
+                        StatItem(value: "\(progress.cardsStudied)", label: "Studied", icon: "eye.fill", color: .green)
+                        StatItem(value: "\(progress.cardsMastered)", label: "Mastered", icon: "star.fill", color: .yellow)
+                    }
+                }
+                .padding()
+                .background(Color(.systemBackground))
+                .cornerRadius(12)
+
+                // Quick actions
+                VStack(spacing: 12) {
+                    NavigationLink {
+                        FlashcardView(flashcards: levelCards.shuffled())
+                            .environmentObject(progressManager)
+                    } label: {
+                        ActionButton(title: "Study All \(level.rawValue) Cards", icon: "rectangle.stack.fill", color: colorForLevel(level))
+                    }
+
+                    NavigationLink {
+                        QuizView(flashcards: levelCards.shuffled())
+                            .environmentObject(progressManager)
+                    } label: {
+                        ActionButton(title: "Quiz All \(level.rawValue)", icon: "questionmark.circle.fill", color: .purple)
+                    }
+                }
+
+                // Grammar topics at this level
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("\(level.rawValue) Grammar Topics")
+                        .font(.headline)
+
+                    ForEach(levelTopics) { topic in
+                        NavigationLink {
+                            GrammarTopicDetailView(topic: topic)
+                                .environmentObject(progressManager)
+                        } label: {
+                            HStack {
+                                Image(systemName: topic.icon)
+                                    .font(.title3)
+                                    .foregroundColor(colorFromString(topic.color))
+                                    .frame(width: 40)
+
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(topic.rawValue)
+                                        .font(.subheadline)
+                                        .fontWeight(.medium)
+                                        .foregroundColor(.primary)
+
+                                    Text("\(GermanContent.flashcards(for: topic).count) cards")
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                }
+
+                                Spacer()
+
+                                let topicProgress = progressManager.getGrammarProgress(topic)
+                                Text("\(Int(topicProgress.accuracy))%")
+                                    .font(.subheadline)
+                                    .foregroundColor(.secondary)
+
+                                Image(systemName: "chevron.right")
+                                    .foregroundColor(.secondary)
+                            }
+                            .padding()
+                            .background(Color(.systemBackground))
+                            .cornerRadius(12)
+                        }
+                    }
+                }
+            }
+            .padding()
+        }
+        .navigationTitle("\(level.rawValue) - \(level.name)")
+        .background(Color(.systemGroupedBackground))
+    }
+
+    private func colorForLevel(_ level: CEFRLevel) -> Color {
+        switch level {
+        case .a1: return .green
+        case .a2: return .blue
+        case .b1: return .purple
+        case .b2: return .orange
+        case .c1: return .red
+        case .c2: return .yellow
+        }
+    }
+
+    private func colorFromString(_ colorName: String) -> Color {
+        switch colorName {
+        case "blue": return .blue
+        case "green": return .green
+        case "purple": return .purple
+        case "orange": return .orange
+        case "red": return .red
+        case "cyan": return .cyan
+        default: return .blue
+        }
+    }
+}
+
+// MARK: - Progress Detail View
+
+struct ProgressDetailView: View {
     @EnvironmentObject var progressManager: ProgressManager
 
     var body: some View {
         List {
             Section("Overview") {
                 HStack {
-                    Text("Total Answered")
+                    Label("Current Level", systemImage: "star.fill")
+                    Spacer()
+                    Text(progressManager.getCurrentLevel().rawValue)
+                        .fontWeight(.bold)
+                        .foregroundColor(colorForLevel(progressManager.getCurrentLevel()))
+                }
+
+                HStack {
+                    Label("Total Points", systemImage: "flame.fill")
+                    Spacer()
+                    Text("\(progressManager.progress.totalPoints)")
+                        .foregroundColor(.orange)
+                }
+
+                HStack {
+                    Label("Total Answered", systemImage: "checkmark.circle.fill")
                     Spacer()
                     Text("\(progressManager.progress.totalAnswers)")
                         .foregroundColor(.secondary)
                 }
 
                 HStack {
-                    Text("Correct Answers")
+                    Label("Accuracy", systemImage: "target")
                     Spacer()
-                    Text("\(progressManager.progress.correctAnswers)")
+                    Text(String(format: "%.1f%%", progressManager.progress.accuracy))
                         .foregroundColor(.green)
                 }
 
                 HStack {
-                    Text("Accuracy")
+                    Label("Current Streak", systemImage: "flame")
                     Spacer()
-                    Text(String(format: "%.1f%%", progressManager.progress.accuracy))
-                        .foregroundColor(.blue)
-                }
-
-                HStack {
-                    Text("Cards Mastered")
-                    Spacer()
-                    Text("\(progressManager.progress.masteredCards.count)")
-                        .foregroundColor(.purple)
+                    Text("\(progressManager.getCurrentStreak()) days")
+                        .foregroundColor(.orange)
                 }
             }
 
-            Section("Category Progress") {
-                ForEach(Category.allCases) { category in
-                    let categoryProgress = progressManager.getCategoryProgress(for: category)
+            Section("Level Progress") {
+                ForEach([CEFRLevel.a1, .a2], id: \.self) { level in
+                    let progress = progressManager.getLevelProgress(level)
                     HStack {
-                        Image(systemName: category.icon)
-                            .frame(width: 24)
+                        Text(level.rawValue)
+                            .fontWeight(.bold)
+                            .foregroundColor(colorForLevel(level))
+                            .frame(width: 30)
 
-                        Text(category.rawValue)
+                        Text(level.name)
 
                         Spacer()
 
-                        if categoryProgress.total > 0 {
-                            Text("\(categoryProgress.mastered)/\(categoryProgress.total)")
-                                .foregroundColor(.secondary)
-                        } else {
-                            Text("Not started")
-                                .foregroundColor(.secondary)
-                                .font(.caption)
-                        }
+                        Text("\(progress.cardsMastered)/\(GermanContent.flashcards(for: level).count)")
+                            .foregroundColor(.secondary)
+                    }
+                }
+            }
+
+            Section("Grammar Progress") {
+                ForEach(GrammarTopic.allCases.prefix(10)) { topic in
+                    let progress = progressManager.getGrammarProgress(topic)
+                    HStack {
+                        Image(systemName: topic.icon)
+                            .foregroundColor(colorFromString(topic.color))
+                            .frame(width: 24)
+
+                        Text(topic.rawValue)
+                            .lineLimit(1)
+
+                        Spacer()
+
+                        Text("\(Int(progress.accuracy))%")
+                            .foregroundColor(.secondary)
                     }
                 }
             }
 
             Section {
-                Button("Reset Progress", role: .destructive) {
+                Button("Reset All Progress", role: .destructive) {
                     progressManager.resetProgress()
                 }
             }
         }
         .navigationTitle("Progress")
+    }
+
+    private func colorForLevel(_ level: CEFRLevel) -> Color {
+        switch level {
+        case .a1: return .green
+        case .a2: return .blue
+        case .b1: return .purple
+        case .b2: return .orange
+        case .c1: return .red
+        case .c2: return .yellow
+        }
+    }
+
+    private func colorFromString(_ colorName: String) -> Color {
+        switch colorName {
+        case "blue": return .blue
+        case "green": return .green
+        case "purple": return .purple
+        case "orange": return .orange
+        case "red": return .red
+        case "cyan": return .cyan
+        default: return .blue
+        }
     }
 }
 

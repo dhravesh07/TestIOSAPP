@@ -12,6 +12,7 @@ struct SwipeCardView: View {
     @State private var correctCount = 0
     @State private var totalAnswered = 0
     @State private var showResults = false
+    @State private var earnedPoints = 0
 
     var body: some View {
         VStack {
@@ -39,6 +40,16 @@ struct SwipeCardView: View {
                     .foregroundColor(.secondary)
 
                 Spacer()
+
+                // Level badge
+                Text(sentences[currentIndex].level.rawValue)
+                    .font(.caption)
+                    .fontWeight(.bold)
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
+                    .background(colorForLevel(sentences[currentIndex].level))
+                    .cornerRadius(8)
 
                 Text("Score: \(correctCount)/\(totalAnswered)")
                     .font(.subheadline)
@@ -164,6 +175,21 @@ struct SwipeCardView: View {
                         .italic()
                         .multilineTextAlignment(.center)
                         .padding(.horizontal)
+
+                    // Grammar topics
+                    if !sentence.grammarTopics.isEmpty {
+                        HStack(spacing: 4) {
+                            ForEach(sentence.grammarTopics.prefix(2)) { topic in
+                                Text(topic.rawValue)
+                                    .font(.caption2)
+                                    .padding(.horizontal, 6)
+                                    .padding(.vertical, 2)
+                                    .background(Color.purple.opacity(0.1))
+                                    .foregroundColor(.purple)
+                                    .cornerRadius(4)
+                            }
+                        }
+                    }
                 }
                 .padding(30)
 
@@ -174,7 +200,7 @@ struct SwipeCardView: View {
                     overlayIndicator(text: "WRONG", color: .red, alignment: .trailing)
                 }
             }
-            .frame(height: 300)
+            .frame(height: 320)
         }
 
         private var shadowColor: Color {
@@ -223,6 +249,10 @@ struct SwipeCardView: View {
                 Text(String(format: "Accuracy: %.0f%%", Double(correctCount) / Double(max(totalAnswered, 1)) * 100))
                     .font(.headline)
                     .foregroundColor(.blue)
+
+                Text("+\(earnedPoints) points earned")
+                    .font(.headline)
+                    .foregroundColor(.orange)
             }
 
             VStack(spacing: 12) {
@@ -267,6 +297,12 @@ struct SwipeCardView: View {
                     .font(.title)
                     .fontWeight(.bold)
 
+                if lastAnswer == sentence.isCorrect {
+                    Text("+\(sentence.points) points")
+                        .font(.headline)
+                        .foregroundColor(.green)
+                }
+
                 VStack(alignment: .leading, spacing: 16) {
                     // Original sentence
                     VStack(alignment: .leading, spacing: 4) {
@@ -284,6 +320,17 @@ struct SwipeCardView: View {
                         Text(sentence.isCorrect ? "CORRECT" : "INCORRECT")
                             .fontWeight(.bold)
                             .foregroundColor(sentence.isCorrect ? .green : .red)
+                    }
+
+                    // Error type if applicable
+                    if let errorType = sentence.errorType {
+                        HStack {
+                            Text("Error type:")
+                                .foregroundColor(.secondary)
+                            Text(errorType.rawValue)
+                                .fontWeight(.medium)
+                                .foregroundColor(.orange)
+                        }
                     }
 
                     // Correct version if applicable
@@ -307,6 +354,26 @@ struct SwipeCardView: View {
                             .foregroundColor(.secondary)
                         Text(sentence.explanation)
                             .font(.body)
+                    }
+
+                    // Grammar topics
+                    if !sentence.grammarTopics.isEmpty {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Related topics:")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                            HStack {
+                                ForEach(sentence.grammarTopics) { topic in
+                                    Text(topic.rawValue)
+                                        .font(.caption)
+                                        .padding(.horizontal, 8)
+                                        .padding(.vertical, 4)
+                                        .background(Color.purple.opacity(0.1))
+                                        .foregroundColor(.purple)
+                                        .cornerRadius(8)
+                                }
+                            }
+                        }
                     }
                 }
                 .padding()
@@ -339,6 +406,17 @@ struct SwipeCardView: View {
 
     // MARK: - Helper Methods
 
+    private func colorForLevel(_ level: CEFRLevel) -> Color {
+        switch level {
+        case .a1: return .green
+        case .a2: return .blue
+        case .b1: return .purple
+        case .b2: return .orange
+        case .c1: return .red
+        case .c2: return .yellow
+        }
+    }
+
     private func handleSwipe(_ width: CGFloat) {
         if width > 100 {
             withAnimation(.spring()) {
@@ -370,7 +448,10 @@ struct SwipeCardView: View {
 
         if isAnswerCorrect {
             correctCount += 1
+            earnedPoints += sentence.points
         }
+
+        progressManager.recordSwipeAnswer(correct: isAnswerCorrect, sentence: sentence)
 
         currentIndex += 1
         offset = .zero
@@ -381,6 +462,7 @@ struct SwipeCardView: View {
         currentIndex = 0
         correctCount = 0
         totalAnswered = 0
+        earnedPoints = 0
         showResults = false
         offset = .zero
     }
@@ -388,7 +470,7 @@ struct SwipeCardView: View {
 
 #Preview {
     NavigationStack {
-        SwipeCardView(sentences: GermanVocabulary.swipeSentences)
+        SwipeCardView(sentences: GermanContent.swipeSentences)
             .environmentObject(ProgressManager())
     }
 }
