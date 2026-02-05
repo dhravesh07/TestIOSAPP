@@ -2233,7 +2233,7 @@ struct GermanContent {
             correctVersion: "Ich komme aus Deutschland.",
             grammarTopics: [.prepositions],
             level: .a1,
-            errorType: .prepositionError
+            errorType: .preposition
         ),
         SwipeSentence(
             sentence: "Meine Schwester ist älter als ich.",
