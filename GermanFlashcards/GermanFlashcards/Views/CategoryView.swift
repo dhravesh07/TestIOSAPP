@@ -1,15 +1,111 @@
 import SwiftUI
 
+// MARK: - Shared Types
+
+enum LearningModeType: String, CaseIterable {
+    case flashcards = "Flashcards"
+    case quiz = "Quiz"
+    case swipe = "Swipe"
+}
+
+struct ProgressStatItem: View {
+    let value: String
+    let label: String
+    let icon: String
+    let color: Color
+
+    var body: some View {
+        VStack(spacing: 8) {
+            Image(systemName: icon)
+                .font(.title2)
+                .foregroundColor(color)
+
+            Text(value)
+                .font(.title3)
+                .fontWeight(.bold)
+
+            Text(label)
+                .font(.caption)
+                .foregroundColor(.secondary)
+        }
+        .frame(maxWidth: .infinity)
+    }
+}
+
+struct ModeSelectionRow: View {
+    let mode: LearningModeType
+    let isSelected: Bool
+    let isEnabled: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            HStack {
+                Image(systemName: modeIcon)
+                    .font(.title2)
+                    .foregroundColor(isEnabled ? modeColor : .gray)
+                    .frame(width: 40)
+
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(mode.rawValue)
+                        .font(.headline)
+                        .foregroundColor(isEnabled ? .primary : .gray)
+
+                    Text(modeDescription)
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+
+                Spacer()
+
+                if !isEnabled {
+                    Text("N/A")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                } else {
+                    Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
+                        .foregroundColor(isSelected ? .blue : .gray)
+                }
+            }
+            .padding()
+            .background(isSelected && isEnabled ? Color.blue.opacity(0.1) : Color(.secondarySystemBackground))
+            .cornerRadius(12)
+        }
+        .buttonStyle(.plain)
+        .disabled(!isEnabled)
+    }
+
+    private var modeIcon: String {
+        switch mode {
+        case .flashcards: return "rectangle.stack.fill"
+        case .quiz: return "questionmark.circle.fill"
+        case .swipe: return "hand.draw.fill"
+        }
+    }
+
+    private var modeColor: Color {
+        switch mode {
+        case .flashcards: return .blue
+        case .quiz: return .purple
+        case .swipe: return .orange
+        }
+    }
+
+    private var modeDescription: String {
+        switch mode {
+        case .flashcards: return "Learn with flip cards"
+        case .quiz: return "Test your knowledge"
+        case .swipe: return "Identify correct sentences"
+        }
+    }
+}
+
+// MARK: - Grammar Topic Detail View
+
 struct GrammarTopicDetailView: View {
     let topic: GrammarTopic
     @EnvironmentObject var progressManager: ProgressManager
-    @State private var selectedMode: LearningMode = .flashcards
-
-    enum LearningMode: String, CaseIterable {
-        case flashcards = "Flashcards"
-        case quiz = "Quiz"
-        case swipe = "Swipe"
-    }
+    @State private var selectedMode: LearningModeType = .flashcards
 
     private var topicFlashcards: [Flashcard] {
         GermanContent.flashcards(for: topic)
@@ -22,16 +118,9 @@ struct GrammarTopicDetailView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 24) {
-                // Topic Header
                 headerSection
-
-                // Progress
                 progressSection
-
-                // Learning Mode Picker
                 modePickerSection
-
-                // Start Button
                 startSection
             }
             .padding()
@@ -40,8 +129,6 @@ struct GrammarTopicDetailView: View {
         .navigationTitle(topic.rawValue)
         .navigationBarTitleDisplayMode(.inline)
     }
-
-    // MARK: - Header Section
 
     private var headerSection: some View {
         VStack(spacing: 16) {
@@ -59,7 +146,6 @@ struct GrammarTopicDetailView: View {
                 .multilineTextAlignment(.center)
 
             HStack(spacing: 16) {
-                // Level badge
                 Label(topic.cefrLevel.rawValue, systemImage: "chart.bar.fill")
                     .font(.caption)
                     .fontWeight(.semibold)
@@ -69,7 +155,6 @@ struct GrammarTopicDetailView: View {
                     .foregroundColor(colorForLevel(topic.cefrLevel))
                     .cornerRadius(8)
 
-                // Card count
                 Text("\(topicFlashcards.count) cards")
                     .font(.caption)
                     .foregroundColor(.secondary)
@@ -80,8 +165,6 @@ struct GrammarTopicDetailView: View {
         .background(Color(.systemBackground))
         .cornerRadius(16)
     }
-
-    // MARK: - Progress Section
 
     private var progressSection: some View {
         let topicProgress = progressManager.getGrammarProgress(topic)
@@ -114,7 +197,6 @@ struct GrammarTopicDetailView: View {
                 )
             }
 
-            // Progress bar
             VStack(alignment: .leading, spacing: 4) {
                 HStack {
                     Text("Mastery")
@@ -136,38 +218,12 @@ struct GrammarTopicDetailView: View {
         .cornerRadius(16)
     }
 
-    struct ProgressStatItem: View {
-        let value: String
-        let label: String
-        let icon: String
-        let color: Color
-
-        var body: some View {
-            VStack(spacing: 8) {
-                Image(systemName: icon)
-                    .font(.title2)
-                    .foregroundColor(color)
-
-                Text(value)
-                    .font(.title3)
-                    .fontWeight(.bold)
-
-                Text(label)
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-            }
-            .frame(maxWidth: .infinity)
-        }
-    }
-
-    // MARK: - Mode Picker Section
-
     private var modePickerSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Learning Mode")
                 .font(.headline)
 
-            ForEach(LearningMode.allCases, id: \.self) { mode in
+            ForEach(LearningModeType.allCases, id: \.self) { mode in
                 ModeSelectionRow(
                     mode: mode,
                     isSelected: selectedMode == mode,
@@ -180,76 +236,6 @@ struct GrammarTopicDetailView: View {
         .background(Color(.systemBackground))
         .cornerRadius(16)
     }
-
-    struct ModeSelectionRow: View {
-        let mode: LearningMode
-        let isSelected: Bool
-        let isEnabled: Bool
-        let action: () -> Void
-
-        var body: some View {
-            Button(action: action) {
-                HStack {
-                    Image(systemName: modeIcon)
-                        .font(.title2)
-                        .foregroundColor(isEnabled ? modeColor : .gray)
-                        .frame(width: 40)
-
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(mode.rawValue)
-                            .font(.headline)
-                            .foregroundColor(isEnabled ? .primary : .gray)
-
-                        Text(modeDescription)
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                    }
-
-                    Spacer()
-
-                    if !isEnabled {
-                        Text("N/A")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                    } else {
-                        Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
-                            .foregroundColor(isSelected ? .blue : .gray)
-                    }
-                }
-                .padding()
-                .background(isSelected && isEnabled ? Color.blue.opacity(0.1) : Color(.secondarySystemBackground))
-                .cornerRadius(12)
-            }
-            .buttonStyle(.plain)
-            .disabled(!isEnabled)
-        }
-
-        private var modeIcon: String {
-            switch mode {
-            case .flashcards: return "rectangle.stack.fill"
-            case .quiz: return "questionmark.circle.fill"
-            case .swipe: return "hand.draw.fill"
-            }
-        }
-
-        private var modeColor: Color {
-            switch mode {
-            case .flashcards: return .blue
-            case .quiz: return .purple
-            case .swipe: return .orange
-            }
-        }
-
-        private var modeDescription: String {
-            switch mode {
-            case .flashcards: return "Learn with flip cards"
-            case .quiz: return "Test your knowledge"
-            case .swipe: return "Identify correct sentences"
-            }
-        }
-    }
-
-    // MARK: - Start Section
 
     private var startSection: some View {
         NavigationLink {
@@ -284,8 +270,6 @@ struct GrammarTopicDetailView: View {
             }
         }
     }
-
-    // MARK: - Helpers
 
     private func colorForLevel(_ level: CEFRLevel) -> Color {
         switch level {
@@ -322,7 +306,7 @@ struct GrammarTopicDetailView: View {
 struct LevelDetailView: View {
     let level: CEFRLevel
     @EnvironmentObject var progressManager: ProgressManager
-    @State private var selectedMode: GrammarTopicDetailView.LearningMode = .flashcards
+    @State private var selectedMode: LearningModeType = .flashcards
 
     private var levelFlashcards: [Flashcard] {
         GermanContent.flashcards.filter { $0.level == level }
@@ -335,16 +319,9 @@ struct LevelDetailView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 24) {
-                // Level Header
                 headerSection
-
-                // Progress
                 progressSection
-
-                // Learning Mode Picker
                 modePickerSection
-
-                // Start Button
                 startSection
             }
             .padding()
@@ -353,8 +330,6 @@ struct LevelDetailView: View {
         .navigationTitle("\(level.rawValue) - \(level.name)")
         .navigationBarTitleDisplayMode(.inline)
     }
-
-    // MARK: - Header Section
 
     private var headerSection: some View {
         VStack(spacing: 16) {
@@ -381,8 +356,6 @@ struct LevelDetailView: View {
         .cornerRadius(16)
     }
 
-    // MARK: - Progress Section
-
     private var progressSection: some View {
         let levelProgress = progressManager.getLevelProgress(level)
 
@@ -392,21 +365,21 @@ struct LevelDetailView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
 
             HStack(spacing: 20) {
-                GrammarTopicDetailView.ProgressStatItem(
+                ProgressStatItem(
                     value: "\(levelProgress.cardsStudied)",
                     label: "Studied",
                     icon: "book.fill",
                     color: .blue
                 )
 
-                GrammarTopicDetailView.ProgressStatItem(
+                ProgressStatItem(
                     value: "\(levelProgress.cardsMastered)",
                     label: "Mastered",
                     icon: "star.fill",
                     color: .yellow
                 )
 
-                GrammarTopicDetailView.ProgressStatItem(
+                ProgressStatItem(
                     value: String(format: "%.0f%%", levelProgress.averageAccuracy),
                     label: "Accuracy",
                     icon: "target",
@@ -414,7 +387,6 @@ struct LevelDetailView: View {
                 )
             }
 
-            // Progress bar
             VStack(alignment: .leading, spacing: 4) {
                 HStack {
                     Text("Mastery")
@@ -436,15 +408,13 @@ struct LevelDetailView: View {
         .cornerRadius(16)
     }
 
-    // MARK: - Mode Picker Section
-
     private var modePickerSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Learning Mode")
                 .font(.headline)
 
-            ForEach(GrammarTopicDetailView.LearningMode.allCases, id: \.self) { mode in
-                GrammarTopicDetailView.ModeSelectionRow(
+            ForEach(LearningModeType.allCases, id: \.self) { mode in
+                ModeSelectionRow(
                     mode: mode,
                     isSelected: selectedMode == mode,
                     isEnabled: mode == .swipe ? !levelSentences.isEmpty : !levelFlashcards.isEmpty,
@@ -456,8 +426,6 @@ struct LevelDetailView: View {
         .background(Color(.systemBackground))
         .cornerRadius(16)
     }
-
-    // MARK: - Start Section
 
     private var startSection: some View {
         NavigationLink {
@@ -492,8 +460,6 @@ struct LevelDetailView: View {
             }
         }
     }
-
-    // MARK: - Helpers
 
     private func colorForLevel(_ level: CEFRLevel) -> Color {
         switch level {
