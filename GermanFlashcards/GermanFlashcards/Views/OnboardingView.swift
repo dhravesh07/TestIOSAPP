@@ -244,14 +244,8 @@ struct OnboardingView: View {
     // MARK: - Page 4: Target & Start
 
     private var targetPage: some View {
-        VStack(spacing: 30) {
-            Spacer()
-
+        VStack(spacing: 20) {
             VStack(spacing: 12) {
-                Image(systemName: "flag.fill")
-                    .font(.system(size: 60))
-                    .foregroundColor(.green)
-
                 Text("Your target level")
                     .font(.largeTitle)
                     .fontWeight(.bold)
@@ -260,8 +254,7 @@ struct OnboardingView: View {
                     .font(.title3)
                     .foregroundColor(.secondary)
             }
-
-            Spacer()
+            .padding(.top, 20)
 
             VStack(spacing: 12) {
                 ForEach([CEFRLevel.a2, .b1, .b2], id: \.self) { level in
@@ -294,8 +287,6 @@ struct OnboardingView: View {
             .background(Color(.secondarySystemBackground))
             .cornerRadius(16)
             .padding(.horizontal, 24)
-
-            Spacer()
 
             HStack(spacing: 16) {
                 Button {
